@@ -14,7 +14,9 @@ export default {
         sidebar: "#56D76B1f", // Sidebar background color
         textPrimary: "#56D76B", // Text color
         textSecondary: "#324054", // Secondary text color
-        textGray: "#71839B"
+        textLightGray: "#565656",
+        textSlateGray: "#71839B",
+        textLightBlack: "#3F3F3F"
       },
     },
   },

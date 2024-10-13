@@ -100,7 +100,7 @@ const Sidebar = () => {
                 />
                 <div>
                     <p className="text-textSecondary font-medium">Michael Smith</p>
-                    <p className="text-textGray text-sm">michaelsmith12@gmail.com</p>
+                    <p className="text-textSlateGray text-sm">michaelsmith12@gmail.com</p>
                 </div>
             </div>
         </div>
