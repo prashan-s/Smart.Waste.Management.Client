@@ -5,15 +5,15 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <BrowserRouter basename="/">
+    <BrowserRouter>
       <Suspense fallback={<Spinner loading={true} />}>
         <Routes>
-          {dashboardRoutes.map((dashboardRoute) => (
-            <Route
-              key={dashboardRoute.path}
-              path={dashboardRoute.path}
-              element={dashboardRoute.element}
-            />
+          {dashboardRoutes.map((route) => (
+            <Route key={route.path} path={route.path} element={route.element}>
+              {route.children?.map((child) => (
+                <Route key={child.path} path={child.path} element={child.element} />
+              ))}
+            </Route>
           ))}
         </Routes>
       </Suspense>
