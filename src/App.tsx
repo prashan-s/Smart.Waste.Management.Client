@@ -1,4 +1,4 @@
-import Spinner from "@components/common/Spinner";
+import Loader from "@components/common/Loader";
 import { dashboardRoutes } from "@routes/routes";
 import { Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 function App() {
   return (
     <BrowserRouter>
-      <Suspense fallback={<Spinner loading={true} />}>
+      <Suspense fallback={<Loader loading={true} />}>
         <Routes>
           {dashboardRoutes.map((route) => (
             <Route key={route.path} path={route.path} element={route.element}>

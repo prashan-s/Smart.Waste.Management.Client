@@ -1,24 +1,44 @@
-import { PulseLoader } from "react-spinners"
+import Box from '@mui/material/Box';
+import CircularProgress, {
+    circularProgressClasses,
+    CircularProgressProps,
+} from '@mui/material/CircularProgress';
 
-interface SpinnerProps {
-    loading: boolean;
-}
-
-const Spinner: React.FC<SpinnerProps> = ({ loading }) => {
-
-    if (!loading) return null;
-
+export default function Spinner(props: CircularProgressProps) {
     return (
-        <div className="fixed inset-0 w-full h-full z-50 bg-white bg-opacity-80 flex justify-center items-center">
-            <PulseLoader
-                color="#56D76B"
-                cssOverride={{}}
-                loading
-                margin={2}
-                size={10}
+        <Box sx={{ position: 'relative' }}>
+            <CircularProgress
+                variant="determinate"
+                sx={(theme) => ({
+                    color: theme.palette.grey[200],
+                    ...theme.applyStyles('dark', {
+                        color: theme.palette.grey[800],
+                    }),
+                })}
+                size={40}
+                thickness={2}
+                {...props}
+                value={100}
             />
-        </div>
+            <CircularProgress
+                variant="indeterminate"
+                disableShrink
+                sx={(theme) => ({
+                    color: '#1a90ff',
+                    animationDuration: '550ms',
+                    position: 'absolute',
+                    left: 0,
+                    [`& .${circularProgressClasses.circle}`]: {
+                        strokeLinecap: 'round',
+                    },
+                    ...theme.applyStyles('dark', {
+                        color: '#308fe8',
+                    }),
+                })}
+                size={40}
+                thickness={2}
+                {...props}
+            />
+        </Box>
     );
-};
-
-export default Spinner;
+}
