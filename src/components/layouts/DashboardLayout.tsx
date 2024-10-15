@@ -8,7 +8,7 @@ const DashboardLayout = () => {
             <Sidebar />
 
             {/* Content */}
-            <div className="flex-grow p-6">
+            <div className="ml-72 w-full p-6">
                 <Outlet /> {/* This will render the matching child route */}
             </div>
         </div>

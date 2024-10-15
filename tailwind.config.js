@@ -8,11 +8,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#56D76B",
+        primary: "#92E596",
         secondary: "#005fcc",
         background: "#F5F9F7",
         sidebar: "#56D76B1f", // Sidebar background color
-        textPrimary: "#56D76B", // Text color
+        textPrimary: "#92E596", // Text color
         textSecondary: "#324054", // Secondary text color
         textLightGray: "#565656",
         textSlateGray: "#71839B",

@@ -9,7 +9,7 @@ import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
     return (
-        <div className="h-screen w-72 bg-sidebar flex flex-col justify-between py-8">
+        <div className="fixed h-screen w-72 bg-sidebar flex flex-col justify-between py-8">
             {/* Top Section */}
             <div>
                 {/* Logo */}
@@ -26,8 +26,8 @@ const Sidebar = () => {
                         to="/"
                         className={({ isActive }) =>
                             isActive
-                                ? "flex items-center space-x-3 text-primary font-medium mb-6 text-lg"
-                                : "flex items-center space-x-3 text-textSecondary hover:text-primary font-normal mb-6 text-lg"
+                                ? "flex items-center space-x-3 text-primary font-medium mb-6 text-lg focus:outline-none"
+                                : "flex items-center space-x-3 text-textSecondary hover:text-primary font-normal mb-6 text-lg focus:outline-none"
                         }
                     >
                         <FiHome />
@@ -35,54 +35,55 @@ const Sidebar = () => {
                     </NavLink>
                     <NavLink
                         to="/dashboard"
+                        end
                         className={({ isActive }) =>
                             isActive
-                                ? "flex items-center space-x-3 text-primary font-medium mb-6 text-lg"
-                                : "flex items-center space-x-3 text-textSecondary hover:text-primary font-normal mb-6 text-lg"
+                                ? "flex items-center space-x-3 text-primary font-medium mb-6 text-lg focus:outline-none"
+                                : "flex items-center space-x-3 text-textSecondary hover:text-primary font-normal mb-6 text-lg focus:outline-none"
                         }
                     >
                         <MdOutlineDashboardCustomize />
                         <span>Dashboard</span>
                     </NavLink>
                     <NavLink
-                        to="/reports"
+                        to="/dashboard/reports"
                         className={({ isActive }) =>
                             isActive
-                                ? "flex items-center space-x-3 text-primary font-medium mb-6 text-lg"
-                                : "flex items-center space-x-3 text-textSecondary hover:text-primary font-normal mb-6 text-lg"
+                                ? "flex items-center space-x-3 text-primary font-medium mb-6 text-lg focus:outline-none"
+                                : "flex items-center space-x-3 text-textSecondary hover:text-primary font-normal mb-6 text-lg focus:outline-none"
                         }
                     >
                         <HiOutlineDocumentReport />
                         <span>Reports</span>
                     </NavLink>
                     <NavLink
-                        to="/notifications"
+                        to="/dashboard/notifications"
                         className={({ isActive }) =>
                             isActive
-                                ? "flex items-center space-x-3 text-primary font-medium mb-6 text-lg"
-                                : "flex items-center space-x-3 text-textSecondary hover:text-primary font-normal mb-6 text-lg"
+                                ? "flex items-center space-x-3 text-primary font-medium mb-6 text-lg focus:outline-none"
+                                : "flex items-center space-x-3 text-textSecondary hover:text-primary font-normal mb-6 text-lg focus:outline-none"
                         }
                     >
                         <LuBellRing />
                         <span>Notifications</span>
                     </NavLink>
                     <NavLink
-                        to="/settings"
+                        to="/dashboard/settings"
                         className={({ isActive }) =>
                             isActive
-                                ? "flex items-center space-x-3 text-primary font-medium mb-6 text-lg"
-                                : "flex items-center space-x-3 text-textSecondary hover:text-primary font-normal mb-6 text-lg"
+                                ? "flex items-center space-x-3 text-primary font-medium mb-6 text-lg focus:outline-none"
+                                : "flex items-center space-x-3 text-textSecondary hover:text-primary font-normal mb-6 text-lg focus:outline-none"
                         }
                     >
                         <IoSettingsOutline />
                         <span>Settings</span>
                     </NavLink>
                     <NavLink
-                        to="/logout"
+                        to="/dashboard/logout"
                         className={({ isActive }) =>
                             isActive
-                                ? "flex items-center space-x-3 text-primary font-medium mb-6 text-lg"
-                                : "flex items-center space-x-3 text-textSecondary hover:text-primary font-normal mb-6 text-lg"
+                                ? "flex items-center space-x-3 text-primary font-medium mb-6 text-lg focus:outline-none"
+                                : "flex items-center space-x-3 text-textSecondary hover:text-primary font-normal mb-6 text-lg focus:outline-none"
                         }
                     >
                         <AiOutlineLogout />
