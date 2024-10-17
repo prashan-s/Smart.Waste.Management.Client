@@ -1,6 +1,6 @@
 import useSessionStorage from '@hooks/useSessionStorage';
 import { createContext, useContext, ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 // Define the shape of the auth context
 interface AuthContextType {
@@ -8,6 +8,7 @@ interface AuthContextType {
     login: (token: string) => void;
     logout: () => void;
     isAuthenticated: boolean;
+    isClient: boolean;  // Track whether the user is a client
 }
 
 // Create the AuthContext with default values
@@ -17,6 +18,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [accessToken, setAccessToken] = useSessionStorage('accessToken', null); // Use session storage hook
     const navigate = useNavigate();
+    const location = useLocation();
 
     const login = (token: string) => {
         setAccessToken(token);
@@ -24,13 +26,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const logout = () => {
         setAccessToken(null);
-        navigate('/dashboard/sign-in'); // Redirect to login page
+        const redirectPath = location.pathname.startsWith('/client') ? '/client/sign-in' : '/dashboard/sign-in';
+        navigate(redirectPath);
     };
 
     const isAuthenticated = !!accessToken; // Convert accessToken to boolean
+    const isClient = location.pathname.startsWith('/client');
 
     return (
-        <AuthContext.Provider value={{ accessToken, login, logout, isAuthenticated }}>
+        <AuthContext.Provider value={{ accessToken, login, logout, isAuthenticated, isClient }}>
             {children}
         </AuthContext.Provider>
     );

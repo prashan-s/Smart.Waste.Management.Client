@@ -1,6 +1,7 @@
 import Loader from "@components/common/Loader";
 import { AuthProvider } from "@contexts/AuthContext";
-import { dashboardRoutes } from "@routes/routes";
+import { clientRoutes } from "@routes/ClientRoutes";
+import { dashboardRoutes } from "@routes/DashboardRoutes";
 import { Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -10,7 +11,17 @@ function App() {
       <AuthProvider>
         <Suspense fallback={<Loader loading={true} />}>
           <Routes>
+            {/* Dashboard routes */}
             {dashboardRoutes.map((route) => (
+              <Route key={route.path} path={route.path} element={route.element}>
+                {route.children?.map((child) => (
+                  <Route key={child.path} path={child.path} element={child.element} />
+                ))}
+              </Route>
+            ))}
+
+            {/* Client routes */}
+            {clientRoutes.map((route) => (
               <Route key={route.path} path={route.path} element={route.element}>
                 {route.children?.map((child) => (
                   <Route key={child.path} path={child.path} element={child.element} />
