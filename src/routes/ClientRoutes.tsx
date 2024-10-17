@@ -32,7 +32,7 @@ export const clientRoutes = [
             { path: 'payments', element: <PaymentsPage /> },
             { path: 'notifications', element: <NotificationsPage /> },
             { path: 'feedback', element: <FeedbackPage /> },
-            { path: 'reset-password', element: <ResetPasswordPage /> },
+
         ],
     },
     {
@@ -46,6 +46,10 @@ export const clientRoutes = [
     {
         path: '/client/sign-up',
         element: <RegisterPage />,
+    },
+    {
+        path: '/client/reset-password',
+        element: <ResetPasswordPage />
     },
     // Wildcard route for unmatched paths under /client
     {

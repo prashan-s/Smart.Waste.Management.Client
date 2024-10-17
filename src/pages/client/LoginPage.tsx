@@ -34,7 +34,7 @@ const LoginPage: React.FC = () => {
     // Handle form submission
     const onSubmit: SubmitHandler<ILoginFormInputs> = (data) => {
         console.log('Login Data:', data);
-        // Handle login logic here (e.g., call API or Auth context)
+        navigate('/client');
     };
 
     const handleForgotPassword = () => {
