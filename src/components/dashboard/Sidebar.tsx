@@ -1,4 +1,4 @@
-import { FiHome } from "react-icons/fi";
+// import { FiHome } from "react-icons/fi";
 import { MdOutlineDashboardCustomize } from "react-icons/md";
 import { HiOutlineDocumentReport } from "react-icons/hi";
 import { LuBellRing } from "react-icons/lu";
@@ -6,8 +6,15 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { AiOutlineLogout } from "react-icons/ai";
 import maleAvatar from "@assets/images/male-avatar.png"
 import { NavLink } from 'react-router-dom';
+import { useAuth } from "@contexts/AuthContext";
 
 const Sidebar = () => {
+    const { logout } = useAuth(); // Destructure the logout function from AuthContext
+
+    const handleLogout = () => {
+        logout(); // Call the logout function to clear the session and redirect to login
+    };
+
     return (
         <div className="fixed h-screen w-72 bg-sidebar flex flex-col justify-between py-8">
             {/* Top Section */}
@@ -22,8 +29,8 @@ const Sidebar = () => {
 
                 {/* Navigation Links */}
                 <nav className="px-6">
-                    <NavLink
-                        to="/"
+                    {/* <NavLink
+                        to="/dashboard/sign-in"
                         className={({ isActive }) =>
                             isActive
                                 ? "flex items-center space-x-3 text-primary font-medium mb-6 text-lg focus:outline-none"
@@ -32,7 +39,7 @@ const Sidebar = () => {
                     >
                         <FiHome />
                         <span>Home</span>
-                    </NavLink>
+                    </NavLink> */}
                     <NavLink
                         to="/dashboard"
                         end
@@ -78,17 +85,15 @@ const Sidebar = () => {
                         <IoSettingsOutline />
                         <span>Settings</span>
                     </NavLink>
-                    <NavLink
-                        to="/dashboard/logout"
-                        className={({ isActive }) =>
-                            isActive
-                                ? "flex items-center space-x-3 text-primary font-medium mb-6 text-lg focus:outline-none"
-                                : "flex items-center space-x-3 text-textSecondary hover:text-primary font-normal mb-6 text-lg focus:outline-none"
-                        }
+
+                    {/* Logout Button */}
+                    <button
+                        onClick={handleLogout} // Call the handleLogout function when clicked
+                        className="flex items-center space-x-3 text-textSecondary hover:text-primary font-normal mb-6 text-lg focus:outline-none"
                     >
                         <AiOutlineLogout />
                         <span>Logout</span>
-                    </NavLink>
+                    </button>
                 </nav>
             </div>
 
