@@ -1,5 +1,6 @@
 import { lazy } from 'react';
 import ProtectedRoute from './ProtectedRoute';
+import { Navigate } from 'react-router-dom';
 
 // Lazy-loaded components for the client mobile journey
 const OnboardingPage = lazy(() => import('@pages/client/OnboardingPage'));
@@ -20,21 +21,18 @@ export const clientRoutes = [
         path: '/client',
         element: (
             <ProtectedRoute>
-                <OnboardingPage />
+                <HomePage />
             </ProtectedRoute>
         ),
         children: [
-            { path: 'login', element: <LoginPage /> },
-            { path: 'profile', element: <RegisterPage /> },
-            { path: 'settings', element: <ResetPasswordPage /> },
-            { path: 'profile', element: <HomePage /> },
-            { path: 'profile', element: <MyWastePage /> },
-            { path: 'profile', element: <WasteDetailsPage /> },
+            { path: 'my-waste', element: <MyWastePage /> },
+            { path: 'waste-details', element: <WasteDetailsPage /> },
             { path: 'profile', element: <ProfilePage /> },
-            { path: 'profile', element: <PointsPage /> },
-            { path: 'profile', element: <PaymentsPage /> },
-            { path: 'profile', element: <NotificationsPage /> },
-            { path: 'profile', element: <FeedbackPage /> },
+            { path: 'points', element: <PointsPage /> },
+            { path: 'payments', element: <PaymentsPage /> },
+            { path: 'notifications', element: <NotificationsPage /> },
+            { path: 'feedback', element: <FeedbackPage /> },
+            { path: 'reset-password', element: <ResetPasswordPage /> },
         ],
     },
     {
@@ -48,5 +46,10 @@ export const clientRoutes = [
     {
         path: '/client/sign-up',
         element: <RegisterPage />,
+    },
+    // Wildcard route for unmatched paths under /client
+    {
+        path: '/client/*',
+        element: <Navigate to="/client" />,
     },
 ];

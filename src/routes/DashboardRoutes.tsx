@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 import DashboardLayout from '@components/layouts/DashboardLayout'; // Adjust path based on your structure
 import ProtectedRoute from './ProtectedRoute';
+import { Navigate } from 'react-router-dom';
 
 // Lazy loaded components
 const SignInPage = lazy(() => import('@pages/dashboard/SignIn'));
@@ -33,5 +34,10 @@ export const dashboardRoutes = [
     {
         path: '/dashboard/sign-up',
         element: <SignUpPage />, // Public route
+    },
+    // Wildcard route for unmatched paths under /dashboard
+    {
+        path: '/dashboard/*',
+        element: <Navigate to="/client" />,
     },
 ];
