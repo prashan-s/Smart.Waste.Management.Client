@@ -36,6 +36,11 @@ const ResetPasswordOtpPage: React.FC = () => {
         console.log('OTP Resent');
     };
 
+    const handleSendEmail = () => {
+        // Navigate to reset password via email
+        navigate('/client/reset-password-email');
+    };
+
     return (
         <div className="min-h-screen bg-[#F5F9F7] flex flex-col items-center justify-center px-6 py-10">
             {/* OTP Screen Image */}
@@ -85,19 +90,27 @@ const ResetPasswordOtpPage: React.FC = () => {
                 {timer > 0 ? `00:${timer < 10 ? `0${timer}` : timer}` : 'Resend available'}
             </div>
 
-            {/* Submit Button */}
+            {/* Submit/Resend Button */}
             <div className="w-full mt-6 max-w-xs">
-                <Button
-                    label="Done"
-                    onClick={handleSubmitOtp}
-                    className="w-full bg-tertiary text-white text-lg font-semibold py-2"
-                />
+                {timer > 0 ? (
+                    <Button
+                        label="Done"
+                        onClick={handleSubmitOtp}
+                        className="w-full bg-tertiary text-white text-lg font-semibold py-2"
+                    />
+                ) : (
+                    <Button
+                        label="Resend"
+                        onClick={handleResendCode}
+                        className="w-full bg-tertiary text-white text-lg font-semibold py-2"
+                    />
+                )}
             </div>
 
-            {/* Resend Code */}
+            {/* Resend via Email Link */}
             <div className="mt-6 text-sm text-center text-gray-600">
                 Didn't get code?{' '}
-                <button onClick={handleResendCode} className="text-[#00A3FF] hover:underline">
+                <button onClick={handleSendEmail} className="text-[#00A3FF] hover:underline">
                     Send Email
                 </button>
             </div>
