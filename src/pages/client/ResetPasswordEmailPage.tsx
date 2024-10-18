@@ -35,8 +35,7 @@ const PasswordResetEmailPage: React.FC = () => {
     // Handle form submission
     const onSubmit: SubmitHandler<IEmailVerificationForm> = (data) => {
         console.log('Email Verification Code:', data.emailCode);
-        // Navigate to the appropriate page after successful submission
-        navigate('/client/sign-in');
+        navigate('/client/reset-password-success');
     };
 
     return (
