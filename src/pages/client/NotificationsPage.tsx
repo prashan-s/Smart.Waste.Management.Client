@@ -51,7 +51,7 @@ const NotificationsPage: React.FC = () => {
                                 <p className="text-sm text-gray-500">{notification.description}</p>
                             </div>
                         </div>
-                        <p className="text-sm text-gray-500">{notification.time}</p>
+                        <p className="text-sm text-gray-500 text-nowrap">{notification.time}</p>
                     </div>
                 ))}
 
@@ -66,7 +66,7 @@ const NotificationsPage: React.FC = () => {
                                 <p className="text-sm text-gray-500">{notification.description}</p>
                             </div>
                         </div>
-                        <p className="text-sm text-gray-500">{notification.time}</p>
+                        <p className="text-sm text-gray-500 text-nowrap">{notification.time}</p>
                     </div>
                 ))}
             </div>
