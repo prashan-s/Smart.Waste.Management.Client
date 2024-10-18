@@ -27,7 +27,7 @@ const ResetPasswordOtpPage: React.FC = () => {
         // Handle OTP validation logic here
         console.log('OTP Submitted: ', otp);
         // Navigate to next screen after OTP is validated
-        navigate('/client/dashboard');
+        navigate('/client/sign-in');
     };
 
     const handleResendCode = () => {
@@ -79,6 +79,7 @@ const ResetPasswordOtpPage: React.FC = () => {
                                 fontSize: '1.5rem',
                                 color: '#000000',
                                 outline: 'none',
+                                background: '#ffffff'
                             }}
                         />
                     )}
