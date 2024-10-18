@@ -13,15 +13,17 @@ import resetForm from '@assets/images/reset-form.png';
 
 // Define the validation schema using Yup
 const schema = yup.object().shape({
-    password: yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+    email: yup.string().email('Invalid email format').required('Email is required'),
+    password: yup.string().min(6, 'Password must be at least 6 characters').required('New password is required'),
     confirmPassword: yup
         .string()
         .oneOf([yup.ref('password'), ''], 'Passwords must match')
-        .required('Confirm password is required'),
+        .required('Confirming new password is required'),
 });
 
 // Define types for form inputs
 interface IResetPasswordForm {
+    email: string;
     password: string;
     confirmPassword: string;
 }
@@ -66,15 +68,38 @@ const ResetPasswordPage: React.FC = () => {
             {/* Heading and Subtitle */}
             <div className="text-center">
                 <h2 className="text-2xl font-bold text-textLightBlack">Reset Your Password</h2>
-                <p className="mt-2 text-sm text-gray-600">Enter your new password to change</p>
+                <p className="mt-2 text-sm text-gray-600">Enter your email and create a new password</p>
             </div>
 
             {/* Password Reset Form */}
             <div className="w-full max-w-md p-6">
+                {/* Email Field */}
+                <TextField
+                    {...register('email')}
+                    label="Email Address"
+                    variant="standard"
+                    fullWidth
+                    error={!!errors.email}
+                    helperText={errors.email ? errors.email.message : ''}
+                    InputLabelProps={{
+                        shrink: true, sx: {
+                            color: "#404040",
+                            fontSize: 18,
+                            fontWeight: 600,
+                            "&.MuiOutlinedInput-notchedOutline": { fontSize: "28px" }
+                        }
+                    }}
+                    inputProps={{
+                        autoComplete: 'off'
+                    }}
+                    margin="normal"
+                    color="success"
+                />
+
                 {/* New Password Field */}
                 <TextField
                     {...register('password')}
-                    label="Enter new Password"
+                    label="Create New Password"
                     variant="standard"
                     fullWidth
                     type={showPassword ? 'text' : 'password'}
@@ -107,7 +132,7 @@ const ResetPasswordPage: React.FC = () => {
                 {/* Confirm Password Field */}
                 <TextField
                     {...register('confirmPassword')}
-                    label="Re Enter new Password"
+                    label="Confirm New Password"
                     variant="standard"
                     fullWidth
                     type={showConfirmPassword ? 'text' : 'password'}
@@ -139,7 +164,7 @@ const ResetPasswordPage: React.FC = () => {
 
                 {/* Submit Button */}
                 <div className="w-full mt-6">
-                    <Button label="Change" onClick={handleSubmit(onSubmit)} className="w-full bg-tertiary text-white text-lg font-semibold py-2" />
+                    <Button label="Change Password" onClick={handleSubmit(onSubmit)} className="w-full bg-tertiary text-white text-lg font-semibold py-2" />
                 </div>
             </div>
         </div>

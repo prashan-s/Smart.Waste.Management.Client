@@ -7,6 +7,7 @@ import enterOtp from '@assets/images/enter-otp.png';
 const ResetPasswordOtpPage: React.FC = () => {
     const [otp, setOtp] = useState('');
     const [timer, setTimer] = useState(30); // Start with 30 seconds
+    const [error, setError] = useState(''); // State to hold validation errors
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -21,9 +22,14 @@ const ResetPasswordOtpPage: React.FC = () => {
 
     const handleOtpChange = (otpValue: string) => {
         setOtp(otpValue);
+        setError(''); // Clear the error when the user changes the input
     };
 
     const handleSubmitOtp = () => {
+        if (otp.length !== 6) {
+            setError('OTP must be 6 digits');
+            return;
+        }
         // Handle OTP validation logic here
         console.log('OTP Submitted: ', otp);
         navigate('/client/reset-password-success');
@@ -78,12 +84,19 @@ const ResetPasswordOtpPage: React.FC = () => {
                                 fontSize: '1.5rem',
                                 color: '#000000',
                                 outline: 'none',
-                                background: '#ffffff'
+                                background: '#ffffff',
                             }}
                         />
                     )}
                 />
             </div>
+
+            {/* Error Message */}
+            {error && (
+                <div className="text-center text-red-500 text-sm mt-2">
+                    {error}
+                </div>
+            )}
 
             {/* Timer */}
             <div className="text-center text-gray-600 text-sm mt-2">
