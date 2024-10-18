@@ -8,6 +8,7 @@ const OnboardingPage = lazy(() => import('@pages/client/OnboardingPage'));
 const LoginPage = lazy(() => import('@pages/client/LoginPage'));
 const RegisterPage = lazy(() => import('@pages/client/RegisterPage'));
 const ResetPasswordPage = lazy(() => import('@pages/client/ResetPasswordPage'));
+const ResetPasswordOtpPage = lazy(() => import('@pages/client/ResetPasswordOtpPage'));
 const ResetPasswordSuccess = lazy(() => import('@pages/client/ResetPasswordSuccess'));
 const HomePage = lazy(() => import('@pages/client/HomePage'));
 const MyWastePage = lazy(() => import('@pages/client/MyWastePage'));
@@ -53,6 +54,10 @@ export const clientRoutes = [
     {
         path: '/client/reset-password',
         element: <ResetPasswordPage />
+    },
+    {
+        path: '/client/reset-password-otp',
+        element: <ResetPasswordOtpPage />
     },
     {
         path: '/client/reset-password-success',

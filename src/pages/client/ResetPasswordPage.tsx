@@ -43,7 +43,7 @@ const ResetPasswordPage: React.FC = () => {
     // Handle form submission
     const onSubmit: SubmitHandler<IResetPasswordForm> = (data) => {
         console.log('Reset Password Data:', data);
-        navigate('/client/reset-password-success'); // Navigate to success screen after successful submission
+        navigate('/client/reset-password-otp');
     };
 
     return (
