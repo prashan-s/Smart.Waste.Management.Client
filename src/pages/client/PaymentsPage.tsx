@@ -3,22 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import cardImage from '@assets/images/credit-cards.png';
 import visa from '@assets/images/visa.png';
 import { FiTrash2 } from 'react-icons/fi';
-import { IoArrowBack } from 'react-icons/io5';
+import StickyHeader from '@components/common/StickyHeader'; // Import the reusable StickyHeader component
 
 const PaymentsPage: React.FC = () => {
     const navigate = useNavigate();
 
     const handleBack = () => {
-        navigate(-1); // Go back to the previous page (Profile)
+        navigate(-1); // Go back to the previous page
     };
 
     return (
         <div className="min-h-screen bg-[#EBF9EC] flex flex-col items-center justify-start px-4 py-8 md:pb-28">
-            {/* Back Button and Page Title */}
-            <div className="w-full flex items-center mb-2 max-w-md">
-                <IoArrowBack size={24} className="cursor-pointer" onClick={handleBack} />
-                <h1 className="ml-4 text-2xl font-extrabold">Payments</h1>
-            </div>
+            {/* Reusable Sticky Header */}
+            <StickyHeader
+                title="Payments"
+                onBackClick={handleBack}
+                customClassName="mb-2" // Additional spacing below the sticky header
+            />
 
             {/* Card Image Header */}
             <div className="mb-2">
