@@ -10,7 +10,6 @@ import Button from '@components/client/Button';
 import { useNavigate } from 'react-router-dom';
 import codeTyping from '@assets/images/code-typing.png';
 import resetForm from '@assets/images/reset-form.png';
-import padlock from '@assets/images/Padlock.png';
 
 // Define the validation schema using Yup
 const schema = yup.object().shape({
@@ -50,7 +49,7 @@ const ResetPasswordPage: React.FC = () => {
     return (
         <div className="min-h-screen bg-[#F5F9F7] flex flex-col items-center justify-start px-6 py-10">
             {/* Reset Form Image */}
-            <div className="relative w-full my-10 flex justify-center">
+            <div className="relative w-full max-w-md my-10 flex justify-center">
                 <img
                     src={resetForm}
                     alt="Password Reset Form"
