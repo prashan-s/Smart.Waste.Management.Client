@@ -6,6 +6,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Header from '@components/client/Header'; // Corrected the path
 import Button from '@components/client/Button';
 import TextField from '@mui/material/TextField';
+import { signInUser } from '@services/userService';
+import { useAuth } from '@contexts/AuthContext';
+import { showToast } from '@utils/toastService';
 
 // Define the validation schema using Yup
 const schema = yup.object().shape({
@@ -21,6 +24,7 @@ interface ILoginFormInputs {
 
 const LoginPage: React.FC = () => {
     const navigate = useNavigate();
+    const { login } = useAuth(); // Use login from AuthContext to set the token
 
     // Set up the form with useForm and the Yup resolver
     const {
@@ -32,9 +36,16 @@ const LoginPage: React.FC = () => {
     });
 
     // Handle form submission
-    const onSubmit: SubmitHandler<ILoginFormInputs> = (data) => {
-        console.log('Login Data:', data);
-        navigate('/client');
+    const onSubmit: SubmitHandler<ILoginFormInputs> = async (data) => {
+        try {
+            const { accessToken } = await signInUser(data); // Call the signInUser function
+            login(accessToken); // Store the token in session storage using the login function
+            showToast('success', 'Success', 'Sign-in successful');
+            navigate('/client'); // Redirect after successful login
+        } catch (error: any) {
+            showToast('error', 'Error', error.toString());
+            console.error('Sign-in error:', error);
+        }
     };
 
     const handleForgotPassword = () => {

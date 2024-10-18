@@ -1,4 +1,3 @@
-// src/pages/client/OnboardingPage.tsx
 import React from 'react';
 import Button from '@components/client/Button';
 import { useNavigate } from 'react-router-dom';

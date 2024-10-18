@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 import ProtectedRoute from './ProtectedRoute';
 import { Navigate } from 'react-router-dom';
+import ClientLayout from '@components/layouts/ClientLayout';
 
 // Lazy-loaded components for the client mobile journey
 const OnboardingPage = lazy(() => import('@pages/client/OnboardingPage'));
@@ -21,10 +22,11 @@ export const clientRoutes = [
         path: '/client',
         element: (
             <ProtectedRoute>
-                <HomePage />
+                <ClientLayout />
             </ProtectedRoute>
         ),
         children: [
+            { path: '', element: <HomePage /> },
             { path: 'my-waste', element: <MyWastePage /> },
             { path: 'waste-details', element: <WasteDetailsPage /> },
             { path: 'profile', element: <ProfilePage /> },

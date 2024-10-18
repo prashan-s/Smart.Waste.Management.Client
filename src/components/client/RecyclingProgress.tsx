@@ -2,12 +2,14 @@ import React from 'react';
 
 const RecyclingProgress: React.FC = () => {
     return (
-        <div className="mt-6">
-            <h3 className="text-lg font-semibold">Recycling Progress</h3>
-            <p className="text-sm text-gray-600">See how much of your waste is being recycled</p>
-            <button className="mt-2 bg-[#04863E] text-white py-2 px-6 rounded-full">
-                See
-            </button>
+        <div className="mt-4">
+            <h3 className="text-base md:text-lg font-bold">Recycling Progress</h3>
+            <div className="flex justify-center items-center gap-x-5">
+                <p className="text-sm md:text-md text-gray-600 text-wrap">See how much of your waste is being recycled</p>
+                <button className="bg-[#04863E] text-white text-sm md:text-base py-2 px-6 rounded-full">
+                    See
+                </button>
+            </div>
         </div>
     );
 };
