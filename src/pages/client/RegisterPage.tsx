@@ -135,7 +135,14 @@ const RegisterPage: React.FC = () => {
                                 margin="normal"
                                 color="success"
                                 autoComplete="off"
-                                InputLabelProps={{ shrink: true }}
+                                InputLabelProps={{
+                                    shrink: true, sx: {
+                                        color: "#404040",
+                                        fontSize: 18,
+                                        fontWeight: 600,
+                                        "&.MuiOutlinedInput-notchedOutline": { fontSize: "28px" }
+                                    }
+                                }}
                             />
 
                             {/* Contact Number Field */}
@@ -150,7 +157,14 @@ const RegisterPage: React.FC = () => {
                                 margin="normal"
                                 color="success"
                                 autoComplete="off"
-                                InputLabelProps={{ shrink: true }}
+                                InputLabelProps={{
+                                    shrink: true, sx: {
+                                        color: "#404040",
+                                        fontSize: 18,
+                                        fontWeight: 600,
+                                        "&.MuiOutlinedInput-notchedOutline": { fontSize: "28px" }
+                                    }
+                                }}
                             />
 
                             {/* Address Field */}
@@ -165,7 +179,14 @@ const RegisterPage: React.FC = () => {
                                 margin="normal"
                                 color="success"
                                 autoComplete="off"
-                                InputLabelProps={{ shrink: true }}
+                                InputLabelProps={{
+                                    shrink: true, sx: {
+                                        color: "#404040",
+                                        fontSize: 18,
+                                        fontWeight: 600,
+                                        "&.MuiOutlinedInput-notchedOutline": { fontSize: "28px" }
+                                    }
+                                }}
                             />
 
                             {/* Type Field (Household or Business) */}
@@ -179,7 +200,14 @@ const RegisterPage: React.FC = () => {
                                 helperText={errorsStep1.type ? errorsStep1.type.message : ''}
                                 margin="normal"
                                 color="success"
-                                InputLabelProps={{ shrink: true }}
+                                InputLabelProps={{
+                                    shrink: true, sx: {
+                                        color: "#404040",
+                                        fontSize: 18,
+                                        fontWeight: 600,
+                                        "&.MuiOutlinedInput-notchedOutline": { fontSize: "28px" }
+                                    }
+                                }}
                             >
                                 <MenuItem value="household">Household</MenuItem>
                                 <MenuItem value="business">Business</MenuItem>
@@ -208,7 +236,14 @@ const RegisterPage: React.FC = () => {
                                 placeholder="xxxxx@gmail.com"
                                 margin="normal"
                                 color="success"
-                                InputLabelProps={{ shrink: true }}
+                                InputLabelProps={{
+                                    shrink: true, sx: {
+                                        color: "#404040",
+                                        fontSize: 18,
+                                        fontWeight: 600,
+                                        "&.MuiOutlinedInput-notchedOutline": { fontSize: "28px" }
+                                    }
+                                }}
                                 inputProps={{
                                     autoComplete: 'off'
                                 }}
@@ -226,7 +261,14 @@ const RegisterPage: React.FC = () => {
                                 placeholder="********"
                                 margin="normal"
                                 color="success"
-                                InputLabelProps={{ shrink: true }}
+                                InputLabelProps={{
+                                    shrink: true, sx: {
+                                        color: "#404040",
+                                        fontSize: 18,
+                                        fontWeight: 600,
+                                        "&.MuiOutlinedInput-notchedOutline": { fontSize: "28px" }
+                                    }
+                                }}
                                 inputProps={{
                                     autoComplete: 'new-password'
                                 }}
@@ -244,7 +286,14 @@ const RegisterPage: React.FC = () => {
                                 placeholder="********"
                                 margin="normal"
                                 color="success"
-                                InputLabelProps={{ shrink: true }}
+                                InputLabelProps={{
+                                    shrink: true, sx: {
+                                        color: "#404040",
+                                        fontSize: 18,
+                                        fontWeight: 600,
+                                        "&.MuiOutlinedInput-notchedOutline": { fontSize: "28px" }
+                                    }
+                                }}
                                 inputProps={{
                                     autoComplete: 'new-password'
                                 }}

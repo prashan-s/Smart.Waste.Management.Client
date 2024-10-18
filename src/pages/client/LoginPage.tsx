@@ -78,7 +78,14 @@ const LoginPage: React.FC = () => {
                         margin="normal"
                         color="success"
                         autoComplete='off'
-                        InputLabelProps={{ shrink: true }}
+                        InputLabelProps={{
+                            shrink: true, sx: {
+                                color: "#404040",
+                                fontSize: 18,
+                                fontWeight: 600,
+                                "&.MuiOutlinedInput-notchedOutline": { fontSize: "28px" }
+                            }
+                        }}
                     />
 
                     {/* Password Field */}
@@ -94,7 +101,14 @@ const LoginPage: React.FC = () => {
                         margin="normal"
                         color="success"
                         autoComplete="new-password"
-                        InputLabelProps={{ shrink: true }}
+                        InputLabelProps={{
+                            shrink: true, sx: {
+                                color: "#404040",
+                                fontSize: 18,
+                                fontWeight: 600,
+                                "&.MuiOutlinedInput-notchedOutline": { fontSize: "28px" }
+                            }
+                        }}
                     />
 
                     {/* Forgot Password Link */}
