@@ -13,7 +13,7 @@ const PaymentsPage: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#EBF9EC] flex flex-col items-center justify-start px-2 py-8 md:pb-28">
+        <div className="min-h-screen bg-[#EBF9EC] flex flex-col items-center justify-start px-4 py-6 md:pb-28">
             {/* Reusable Sticky Header */}
             <StickyHeader
                 title="Payments"

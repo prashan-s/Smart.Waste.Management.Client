@@ -13,7 +13,7 @@ const ResetPasswordEmailPage = lazy(() => import('@pages/client/ResetPasswordEma
 const ResetPasswordSuccess = lazy(() => import('@pages/client/ResetPasswordSuccess'));
 const HomePage = lazy(() => import('@pages/client/HomePage'));
 const MyWastePage = lazy(() => import('@pages/client/MyWastePage'));
-const WasteDetailsPage = lazy(() => import('@pages/client/WasteDetailsPage'));
+const MyWasteDetailsPage = lazy(() => import('@pages/client/MyWasteDetailsPage'));
 const ProfilePage = lazy(() => import('@pages/client/ProfilePage'));
 const PointsPage = lazy(() => import('@pages/client/PointsPage'));
 const PaymentsPage = lazy(() => import('@pages/client/PaymentsPage'));
@@ -31,7 +31,7 @@ export const clientRoutes = [
         children: [
             { path: '', element: <HomePage /> },
             { path: 'my-waste', element: <MyWastePage /> },
-            { path: 'waste-details', element: <WasteDetailsPage /> },
+            { path: 'my-waste-details', element: <MyWasteDetailsPage /> },
             { path: 'profile', element: <ProfilePage /> },
             { path: 'points', element: <PointsPage /> },
             { path: 'payments', element: <PaymentsPage /> },
