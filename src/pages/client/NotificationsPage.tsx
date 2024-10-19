@@ -5,7 +5,7 @@ import StickyHeader from '@components/common/StickyHeader';
 import { fetchNotifications } from '@services/notificationService'; // Use the new service
 import { format, isToday, isYesterday, isThisWeek } from 'date-fns';
 import { showToast } from '@utils/toastService';
-import Loader from '@components/common/Loader';
+import { Skeleton, Box } from '@mui/material';
 
 interface Notification {
     id: string;
@@ -21,7 +21,7 @@ const NotificationsPage: React.FC = () => {
     const [yesterdayNotifications, setYesterdayNotifications] = useState<Notification[]>([]);
     const [weekNotifications, setWeekNotifications] = useState<Notification[]>([]);
     const [olderNotifications, setOlderNotifications] = useState<Notification[]>([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true); // Use loading state
 
     const handleBack = () => {
         navigate(-1); // Navigate back to the previous page
@@ -30,7 +30,6 @@ const NotificationsPage: React.FC = () => {
     // Fetch Notifications from API
     useEffect(() => {
         const loadNotifications = async () => {
-            setLoading(true);
             try {
                 const notifications = await fetchNotifications();
 
@@ -72,10 +71,6 @@ const NotificationsPage: React.FC = () => {
         loadNotifications();
     }, []);
 
-    if (loading) {
-        return <Loader loading={true} />;
-    }
-
     return (
         <div className="min-h-screen bg-[#F5F9F7] flex flex-col items-center px-4 pt-6 pb-28 md:pb-28">
             {/* Reusable Sticky Header */}
@@ -87,43 +82,53 @@ const NotificationsPage: React.FC = () => {
 
             {/* Notifications by Category */}
             <div className="w-full max-w-md bg-white rounded-lg p-4 shadow-lg mt-2">
-                {/* Today Notifications */}
-                {todayNotifications.length > 0 && (
+                {loading ? (
                     <>
-                        <h3 className="text-lg font-bold mb-4">Today</h3>
-                        {todayNotifications.map(notification => (
-                            <NotificationItem key={notification.id} notification={notification} />
-                        ))}
+                        <SkeletonLoader />
+                        <SkeletonLoader />
+                        <SkeletonLoader />
                     </>
-                )}
-
-                {/* Yesterday's Notifications */}
-                {yesterdayNotifications.length > 0 && (
+                ) : (
                     <>
-                        <h3 className="text-lg font-bold mt-6 mb-4">Yesterday</h3>
-                        {yesterdayNotifications.map(notification => (
-                            <NotificationItem key={notification.id} notification={notification} />
-                        ))}
-                    </>
-                )}
+                        {/* Today Notifications */}
+                        {todayNotifications.length > 0 && (
+                            <>
+                                <h3 className="text-lg font-bold mb-4">Today</h3>
+                                {todayNotifications.map(notification => (
+                                    <NotificationItem key={notification.id} notification={notification} />
+                                ))}
+                            </>
+                        )}
 
-                {/* This Week's Notifications */}
-                {weekNotifications.length > 0 && (
-                    <>
-                        <h3 className="text-lg font-bold mt-6 mb-4">This Week</h3>
-                        {weekNotifications.map(notification => (
-                            <NotificationItem key={notification.id} notification={notification} />
-                        ))}
-                    </>
-                )}
+                        {/* Yesterday's Notifications */}
+                        {yesterdayNotifications.length > 0 && (
+                            <>
+                                <h3 className="text-lg font-bold mt-6 mb-4">Yesterday</h3>
+                                {yesterdayNotifications.map(notification => (
+                                    <NotificationItem key={notification.id} notification={notification} />
+                                ))}
+                            </>
+                        )}
 
-                {/* Older Notifications */}
-                {olderNotifications.length > 0 && (
-                    <>
-                        <h3 className="text-lg font-bold mt-6 mb-4">Older</h3>
-                        {olderNotifications.map(notification => (
-                            <NotificationItem key={notification.id} notification={notification} />
-                        ))}
+                        {/* This Week's Notifications */}
+                        {weekNotifications.length > 0 && (
+                            <>
+                                <h3 className="text-lg font-bold mt-6 mb-4">This Week</h3>
+                                {weekNotifications.map(notification => (
+                                    <NotificationItem key={notification.id} notification={notification} />
+                                ))}
+                            </>
+                        )}
+
+                        {/* Older Notifications */}
+                        {olderNotifications.length > 0 && (
+                            <>
+                                <h3 className="text-lg font-bold mt-6 mb-4">Older</h3>
+                                {olderNotifications.map(notification => (
+                                    <NotificationItem key={notification.id} notification={notification} />
+                                ))}
+                            </>
+                        )}
                     </>
                 )}
             </div>
@@ -148,5 +153,13 @@ const NotificationItem: React.FC<{ notification: Notification }> = ({ notificati
         </div>
     );
 };
+
+// Skeleton Loader Component
+const SkeletonLoader: React.FC = () => (
+    <Box mb={2}>
+        <Skeleton animation="wave" variant="text" height={40} />
+        <Skeleton animation="wave" variant="rectangular" height={80} />
+    </Box>
+);
 
 export default NotificationsPage;
