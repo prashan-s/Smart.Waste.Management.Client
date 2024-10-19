@@ -51,3 +51,12 @@ export const resetPasswordWithOtp = async (email: string, otp: string, newPasswo
     const response = await axiosInstance.put('/user/reset-password', payload);
     return response.data; // Return response data without handling the toast here
 };
+
+// Request OTP via email
+export const requestOtpForEmail = (email: string) => {
+    return axiosInstance.post(`/user/request-otp-email?email=${email}`)
+        .then(response => response.data)
+        .catch(error => {
+            throw error.response?.data?.message || 'Request OTP via email failed';
+        });
+};
