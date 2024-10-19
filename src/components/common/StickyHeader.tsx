@@ -39,8 +39,8 @@ const StickyHeader: React.FC<StickyHeaderProps> = ({
         <>
             <div
                 className={`w-full flex items-center max-w-md mx-auto ${customClassName} ${isHeaderSticky
-                    ? 'fixed top-0 bg-white shadow-lg py-3 z-50 transition-all duration-300 ease-in-out'
-                    : 'relative py-3 transition-all duration-300 ease-in-out'
+                    ? 'fixed top-0 bg-white shadow-lg py-3 px-4 z-50'
+                    : 'relative py-3'
                     }`}
             >
                 <IoArrowBack size={24} className="cursor-pointer" onClick={onBackClick} />

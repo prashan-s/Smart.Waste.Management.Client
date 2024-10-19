@@ -24,7 +24,7 @@ const NotificationsPage: React.FC = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-[#F5F9F7] flex flex-col items-center px-2 py-8">
+        <div className="min-h-screen bg-[#F5F9F7] flex flex-col items-center px-4 pt-6 pb-28 md:pb-28">
             {/* Reusable Sticky Header */}
             <StickyHeader
                 title="Notifications"
