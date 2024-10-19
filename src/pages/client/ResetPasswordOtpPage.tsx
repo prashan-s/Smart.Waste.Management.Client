@@ -1,48 +1,101 @@
 import React, { useState, useEffect } from 'react';
+import * as yup from 'yup';
 import OTPInput from 'react-otp-input';
 import { useNavigate } from 'react-router-dom';
 import Button from '@components/client/Button';
 import enterOtp from '@assets/images/enter-otp.png';
+import { requestOtpForResetPassword, resetPasswordWithOtp } from '@services/userService';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import useSessionStorage from '@hooks/useSessionStorage';
+import { showToast } from '@utils/toastService';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+// Validation schema
+const schema = yup.object().shape({
+    otp: yup.string().matches(/^\d{6}$/, 'OTP must be exactly 6 digits').required('OTP is required'),
+});
+
+// Form input types
+interface IResetPasswordOtpForm {
+    otp: string;
+}
 
 const ResetPasswordOtpPage: React.FC = () => {
-    const [otp, setOtp] = useState('');
-    const [timer, setTimer] = useState(30); // Start with 30 seconds
-    const [error, setError] = useState(''); // State to hold validation errors
+    const [otp, setOtp] = useState(''); // OTP value
+    const [timer, setTimer] = useState(30); // Countdown timer for resend OTP
+    const [loading, setLoading] = useState(false); // Loading state for button
     const navigate = useNavigate();
+    const [storedEmail] = useSessionStorage('resetEmail', ''); // Retrieve email from session storage
+    const [storedPassword] = useSessionStorage('resetPassword', ''); // Retrieve password from session storage
 
+    // react-hook-form setup with Yup validation schema
+    const {
+        handleSubmit,
+        setValue, // Manually set the OTP value in react-hook-form
+        trigger, // Manually trigger validation
+        formState: { errors },
+    } = useForm<IResetPasswordOtpForm>({
+        resolver: yupResolver(schema),
+    });
+
+    // Timer countdown logic
     useEffect(() => {
         const interval = setInterval(() => {
             if (timer > 0) {
-                setTimer(timer - 1);
+                setTimer((prev) => prev - 1);
             }
         }, 1000);
 
         return () => clearInterval(interval);
     }, [timer]);
 
+    // Handle OTP input change and update form value
     const handleOtpChange = (otpValue: string) => {
         setOtp(otpValue);
-        setError(''); // Clear the error when the user changes the input
+        setValue('otp', otpValue); // Update react-hook-form value
+        trigger('otp'); // Trigger validation to avoid manual errors
     };
 
-    const handleSubmitOtp = () => {
-        if (otp.length !== 6) {
-            setError('OTP must be 6 digits');
-            return;
-        }
-        // Handle OTP validation logic here
-        console.log('OTP Submitted: ', otp);
-        navigate('/client/reset-password-success');
-    };
-
-    const handleResendCode = () => {
+    // Handle Resend OTP button click
+    const handleResendCode = async () => {
         setTimer(30); // Reset the timer
-        // Logic to resend the OTP code can go here
-        console.log('OTP Resent');
+        setLoading(true); // Show loading on resend button
+        try {
+            await requestOtpForResetPassword(storedEmail); // API call to request OTP again
+            showToast('success', 'OTP Sent', 'A new OTP has been sent to your email.');
+        } catch (error) {
+            // Type narrowing for error object
+            if (error instanceof Error) {
+                showToast('error', 'Error', error.message || 'Failed to resend OTP.');
+            } else {
+                showToast('error', 'Error', 'Unknown error occurred.');
+            }
+        } finally {
+            setLoading(false); // Stop loading state
+        }
     };
 
+    // Handle OTP form submission
+    const onSubmit: SubmitHandler<IResetPasswordOtpForm> = async (data) => {
+        setLoading(true); // Show loading on "Done" button
+        try {
+            await resetPasswordWithOtp(storedEmail, data.otp, storedPassword); // API call to reset password
+            showToast('success', 'Success', 'Your password has been reset successfully.');
+            navigate('/client/sign-in'); // Navigate to sign-in page after successful reset
+        } catch (error) {
+            // Type narrowing for error object
+            if (error instanceof Error) {
+                showToast('error', 'Error', error.message || 'Failed to reset password.');
+            } else {
+                showToast('error', 'Error', 'Unknown error occurred.');
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Handle navigation to reset password via email page
     const handleSendEmail = () => {
-        // Navigate to reset password via email
         navigate('/client/reset-password-email');
     };
 
@@ -50,11 +103,7 @@ const ResetPasswordOtpPage: React.FC = () => {
         <div className="min-h-screen bg-[#F5F9F7] flex flex-col items-center justify-center px-6 py-10">
             {/* OTP Screen Image */}
             <div className="w-full mb-10 flex justify-center">
-                <img
-                    src={enterOtp}
-                    alt="OTP Screen"
-                    className="w-72 h-56"
-                />
+                <img src={enterOtp} alt="OTP Screen" className="w-72 h-56" />
             </div>
 
             {/* Heading and Instructions */}
@@ -92,10 +141,8 @@ const ResetPasswordOtpPage: React.FC = () => {
             </div>
 
             {/* Error Message */}
-            {error && (
-                <div className="text-center text-red-500 text-sm mt-2">
-                    {error}
-                </div>
+            {errors.otp && (
+                <div className="text-center text-red-500 text-sm mt-2">{errors.otp.message}</div>
             )}
 
             {/* Timer */}
@@ -107,22 +154,24 @@ const ResetPasswordOtpPage: React.FC = () => {
             <div className="w-full mt-6 max-w-xs">
                 {timer > 0 ? (
                     <Button
-                        label="Done"
-                        onClick={handleSubmitOtp}
-                        className="w-full bg-tertiary text-white text-lg font-semibold py-2"
+                        label={loading ? 'Loading...' : 'Done'}
+                        onClick={handleSubmit(onSubmit)}
+                        className={`w-full ${loading ? 'bg-gray-400' : 'bg-tertiary'} text-white text-lg font-semibold py-2`}
+                        loading={loading}
                     />
                 ) : (
                     <Button
-                        label="Resend"
+                        label={loading ? 'Resending...' : 'Resend'}
                         onClick={handleResendCode}
-                        className="w-full bg-tertiary text-white text-lg font-semibold py-2"
+                        className={`w-full ${loading ? 'bg-gray-400' : 'bg-tertiary'} text-white text-lg font-semibold py-2`}
+                        loading={loading}
                     />
                 )}
             </div>
 
             {/* Resend via Email Link */}
             <div className="mt-6 text-sm text-center text-gray-600">
-                Didn't get code?{' '}
+                Didn't get the code?{' '}
                 <button onClick={handleSendEmail} className="text-[#00A3FF] hover:underline">
                     Send Email
                 </button>

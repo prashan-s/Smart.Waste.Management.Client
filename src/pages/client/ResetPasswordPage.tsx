@@ -10,6 +10,9 @@ import Button from '@components/client/Button';
 import { useNavigate } from 'react-router-dom';
 import codeTyping from '@assets/images/code-typing.png';
 import resetForm from '@assets/images/reset-form.png';
+import useSessionStorage from '@hooks/useSessionStorage';
+import { requestOtpForResetPassword } from '@services/userService';
+import { showToast } from '@utils/toastService';
 
 // Define the validation schema using Yup
 const schema = yup.object().shape({
@@ -29,9 +32,12 @@ interface IResetPasswordForm {
 }
 
 const ResetPasswordPage: React.FC = () => {
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [, setSessionEmail] = useSessionStorage('resetEmail', ''); // Store email in session storage
+    const [, setSessionPassword] = useSessionStorage('resetPassword', ''); // Store password in session storage
 
     // Set up the form with useForm and the Yup resolver
     const {
@@ -42,10 +48,25 @@ const ResetPasswordPage: React.FC = () => {
         resolver: yupResolver(schema),
     });
 
-    // Handle form submission
-    const onSubmit: SubmitHandler<IResetPasswordForm> = (data) => {
-        console.log('Reset Password Data:', data);
-        navigate('/client/reset-password-otp');
+    // Handle form submission for requesting OTP
+    const onSubmit: SubmitHandler<IResetPasswordForm> = async (data) => {
+        setLoading(true);
+        try {
+            await requestOtpForResetPassword(data.email); // Call API for requesting OTP
+            setSessionEmail(data.email); // Save email to session storage
+            setSessionPassword(data.password); // Save password to session storage
+            showToast('success', 'OTP Sent', 'An OTP has been sent to your email.');
+            navigate('/client/reset-password-otp'); // Navigate to the OTP verification page
+        } catch (error) {
+            // Type narrowing for error object
+            if (error instanceof Error) {
+                showToast('error', 'Error', error?.message || 'Failed to send OTP.');
+            } else {
+                showToast('error', 'Error', 'Unknown error occurred.');
+            }
+        } finally {
+            setLoading(false); // Reset the loading state
+        }
     };
 
     return (
@@ -164,7 +185,13 @@ const ResetPasswordPage: React.FC = () => {
 
                 {/* Submit Button */}
                 <div className="w-full mt-6">
-                    <Button label="Change Password" onClick={handleSubmit(onSubmit)} className="w-full bg-tertiary text-white text-lg font-semibold py-2" />
+                    <Button
+                        label={loading ? 'Loading...' : 'Send OTP'}
+                        onClick={handleSubmit(onSubmit)}
+                        className={`w-full ${loading ? 'bg-gray-400' : 'bg-tertiary'} text-white text-lg font-semibold py-2`}
+                        loading={loading}
+                    />
+                    {/* <Button label="Change Password" onClick={handleSubmit(onSubmit)} className="w-full bg-tertiary text-white text-lg font-semibold py-2" /> */}
                 </div>
             </div>
         </div>

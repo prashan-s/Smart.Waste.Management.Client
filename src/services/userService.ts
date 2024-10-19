@@ -33,3 +33,21 @@ export const signInUser = (data: SignInData) => {
             throw error.response?.data?.message || 'Sign in failed';
         });
 };
+
+// Request OTP for email reset
+export const requestOtpForResetPassword = async (email: string) => {
+    const response = await axiosInstance.post(`/user/request-otp?email=${email}`);
+    return response.data; // Return response data without handling the toast here
+};
+
+// Reset Password API
+export const resetPasswordWithOtp = async (email: string, otp: string, newPassword: string) => {
+    const payload = {
+        email,
+        otp,
+        password: newPassword,
+    };
+
+    const response = await axiosInstance.put('/user/reset-password', payload);
+    return response.data; // Return response data without handling the toast here
+};

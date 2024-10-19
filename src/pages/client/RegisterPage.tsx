@@ -127,16 +127,6 @@ const RegisterPage: React.FC = () => {
         }
     };
 
-    // // Handle form submission for Step 2
-    // const onSubmitStep2: SubmitHandler<ISignUpFormStep2> = (data) => {
-    //     setFormDataStep2(data); // Save step 2 data to session storage
-    //     console.log('Registration Data:', { ...formDataStep1, ...data });
-    //     sessionStorage.removeItem('step1Data'); // Clear data from session storage
-    //     sessionStorage.removeItem('step2Data');
-    //     sessionStorage.removeItem('currentStep'); // Clear current step from session storage
-    //     navigate('/client'); // Navigate to client dashboard after successful registration
-    // };
-
     const handleBackToStep1 = () => {
         setCurrentStep(1); // Navigate back to step 1 and save it in session storage
     };

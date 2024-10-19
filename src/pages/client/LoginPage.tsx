@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as yup from 'yup';
@@ -25,6 +25,7 @@ interface ILoginFormInputs {
 const LoginPage: React.FC = () => {
     const navigate = useNavigate();
     const { login } = useAuth(); // Use login from AuthContext to set the token
+    const [loading, setLoading] = useState(false); // State for managing loading
 
     // Set up the form with useForm and the Yup resolver
     const {
@@ -37,6 +38,7 @@ const LoginPage: React.FC = () => {
 
     // Handle form submission
     const onSubmit: SubmitHandler<ILoginFormInputs> = async (data) => {
+        setLoading(true); // Set loading to true before the API call
         try {
             const { accessToken } = await signInUser(data); // Call the signInUser function
             login(accessToken); // Store the token in session storage using the login function
@@ -45,6 +47,8 @@ const LoginPage: React.FC = () => {
         } catch (error: any) {
             showToast('error', 'Error', error.toString());
             console.error('Sign-in error:', error);
+        } finally {
+            setLoading(false); // Reset loading state after API call is completed
         }
     };
 
@@ -120,7 +124,7 @@ const LoginPage: React.FC = () => {
 
                     {/* Login Button */}
                     <div className="w-full mt-6">
-                        <Button label="Login" className="w-full bg-tertiary text-white text-lg font-semibold py-2 px-8" onClick={handleSubmit(onSubmit)} />
+                        <Button label="Login" className="w-full bg-tertiary text-white text-lg font-semibold py-2 px-8" onClick={handleSubmit(onSubmit)} loading={loading} />
                     </div>
 
                     {/* Divider */}
