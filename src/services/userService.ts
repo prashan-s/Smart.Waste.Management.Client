@@ -70,7 +70,7 @@ export const requestOtpForEmail = (email: string) => {
 
 // Fetch user profile function
 export const fetchUserProfile = () => {
-    return axiosInstance.get<UpdateProfileData>('/user/info')
+    return axiosInstance.get('/user/info')
         .then(response => response.data)
         .catch(error => {
             throw error.response?.data?.message || 'Failed to load profile data';
@@ -83,5 +83,13 @@ export const updateUserProfile = (data: UpdateProfileData) => {
         .then(response => response.data)
         .catch(error => {
             throw error.response?.data?.message || 'Profile update failed';
+        });
+};
+
+export const scheduleGarbageCollection = async (collectionDay: string) => {
+    return axiosInstance.post(`/user/register/garbage?collectionDay=${collectionDay}`)
+        .then(response => response.data)
+        .catch(error => {
+            throw error.response?.data?.message || 'Failed to schedule collection.';
         });
 };

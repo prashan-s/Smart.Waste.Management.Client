@@ -1,32 +1,75 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Carousel from '@components/client/Carousel';
 import UserInfo from '@components/client/UserInfo';
-import CollectionDate from '@components/client/CollectionDate';
+// import CollectionDate from '@components/client/CollectionDate';
 import PreferredCollectionDays from '@components/client/PreferredCollectionDays';
-import RecyclingProgress from '@components/client/RecyclingProgress';
-import recycleBinGreen from "@assets/images/recycle-bin1.png";
+// import RecyclingProgress from '@components/client/RecyclingProgress';
+// import recycleBinGreen from "@assets/images/recycle-bin1.png";
 import recycleBinOrange from "@assets/images/recycle-bin2.png";
 import RegisterNow from '@components/client/RegisterNow';
+import { showToast } from '@utils/toastService';
+import useSessionStorage from '@hooks/useSessionStorage';
+import { fetchUserProfile, scheduleGarbageCollection } from '@services/userService';
 
 const HomePage: React.FC = () => {
-    const [showContent, setShowContent] = useState(false); // State to control content visibility
-    const [showMessage, setShowMessage] = useState(false); // Control visibility of the message
-    const [heading, setHeading] = useState("Select Pickup Days"); // Dynamic heading
+    const [selectedDay, setSelectedDay] = useState<number | null>(null); // Track selected day
+    const [loading, setLoading] = useState(false); // Track API call loading state
+    const [, setUserData] = useSessionStorage('userData', null); // Store user data in session storage
 
-    // Handle the "Register Now" button click
-    const handleRegisterNowClick = () => {
-        setShowContent((prev) => !prev); // Toggle the visibility
-    };
+    // Days of the week
+    const daysOfWeek = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+
+    // Fetch user info on page load and store in session storage
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            try {
+                const response = await fetchUserProfile(); // Call the API
+                setUserData(response.data); // Store response in session storage
+
+                // Map the collectionDay to the correct day index for the calendar
+                const collectionDayIndex = daysOfWeek.indexOf(response.data.collectionDay);
+                if (collectionDayIndex !== -1) {
+                    setSelectedDay(collectionDayIndex); // Set the selected day based on API response
+                }
+            } catch (error) {
+                // Type narrowing for error object
+                if (error instanceof Error) {
+                    showToast('error', 'Error', error.message || 'Failed to load user information');
+                } else {
+                    showToast('error', 'Error', 'Failed to load user information');
+                }
+            }
+        };
+        fetchUserInfo();
+    }, []); // Dependency array should be empty to fetch data only once when component mounts
 
     // Handle day selection in PreferredCollectionDays
-    const handleDaySelect = () => {
-        setShowMessage(false); // Initially hide the message
+    const handleDaySelect = (dayIndex: number) => {
+        setSelectedDay(dayIndex); // Set selected day
     };
 
     // Handle the "Get Collected" button click
-    const handleGetCollectedClick = () => {
-        setShowMessage(true); // Show the message after button click
-        setHeading("Preferred Collection Day"); // Change heading after the button click
+    const handleGetCollectedClick = async () => {
+        if (selectedDay === null) {
+            showToast('error', 'Error', 'Please select a day before proceeding.');
+            return;
+        }
+
+        const collectionDay = daysOfWeek[selectedDay]; // Convert day index to actual day name
+
+        try {
+            setLoading(true); // Start loading
+            await scheduleGarbageCollection(collectionDay);
+            showToast('success', 'Success', `Collection scheduled for ${collectionDay}`);
+        } catch (error) {
+            if (error instanceof Error) {
+                showToast('error', 'Error', error.message || 'Failed to schedule collection.');
+            } else {
+                showToast('error', 'Error', 'Failed to schedule collection.');
+            }
+        } finally {
+            setLoading(false); // Stop loading
+        }
     };
 
     return (
@@ -51,51 +94,28 @@ const HomePage: React.FC = () => {
 
             {/* Register Now Section */}
             <div className="w-full px-4 md:px-6">
-                <RegisterNow onClick={handleRegisterNowClick} />
+                <RegisterNow />
             </div>
 
-            {/* Below Content (Expandable) */}
-            <div
-                className={`transition-all duration-500 ease-in-out overflow-hidden ${showContent ? 'max-h-[1000px]' : 'max-h-0'}`}
-            >
-                {/* Collection Date Section */}
-                <div className="w-full px-4 md:px-6 mt-4">
-                    <CollectionDate />
-                </div>
+            {/* Preferred Collection Days Section */}
+            <div className="w-full px-4 md:px-6">
+                <PreferredCollectionDays
+                    heading="Select Pickup Days"
+                    showMessage={false} // No message on initial render
+                    onDaySelect={handleDaySelect}
+                    selectedDay={selectedDay} // Pass the selected day from the parent component
+                />
+            </div>
 
-                {/* Image Section */}
-                <div className="w-full px-4 md:px-6 mt-4">
-                    <img src={recycleBinGreen} className="w-full h-auto" />
-                </div>
-
-                {/* Preferred Collection Days Section */}
-                <div className="w-full px-4 md:px-6 mt-4">
-                    <PreferredCollectionDays
-                        heading={heading}
-                        showMessage={showMessage}
-                        onDaySelect={handleDaySelect}
-                    />
-                </div>
-
-                {/* Get Collected Button */}
-                <div className="w-full px-4 md:px-6 mt-4">
-                    <button
-                        className="bg-tertiary text-white py-2 px-6 rounded-full w-full"
-                        onClick={handleGetCollectedClick}
-                    >
-                        Get Collected
-                    </button>
-                </div>
-
-                {/* Image Placeholder */}
-                <div className="w-full px-4 md:px-6 mt-6">
-                    <img src={recycleBinOrange} className="w-full h-auto" />
-                </div>
-
-                {/* Recycling Progress Section */}
-                <div className="w-full px-4 md:px-6 mt-6">
-                    <RecyclingProgress />
-                </div>
+            {/* Get Collected Button */}
+            <div className="w-full px-4 md:px-6 mt-4">
+                <button
+                    className={`bg-tertiary text-white py-2 px-6 rounded-full w-full ${loading ? 'opacity-50' : ''}`}
+                    onClick={handleGetCollectedClick}
+                    disabled={loading}
+                >
+                    {loading ? 'Scheduling...' : 'Get Collected'}
+                </button>
             </div>
         </div>
     );
