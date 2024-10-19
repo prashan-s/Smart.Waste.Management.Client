@@ -22,7 +22,7 @@ const MyWasteDetailsPage: React.FC = () => {
             </div>
 
             {/* Waste Item Details */}
-            <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-4 mb-4">
+            <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6 mb-4">
                 <div className="flex justify-between items-start">
                     <div className="text-xl font-bold">Paper</div>
                     <img
@@ -34,7 +34,7 @@ const MyWasteDetailsPage: React.FC = () => {
             </div>
 
             {/* Earned Points & Recycled Amount Section */}
-            <div className="w-full max-w-md flex justify-around bg-white rounded-lg shadow-lg p-4 mb-4">
+            <div className="w-full max-w-md flex justify-between bg-white rounded-lg shadow-lg p-6 mb-4">
                 {/* Earned Points */}
                 <div className="flex flex-col items-center">
                     <img src={star} alt="Star" className="w-8 h-8 mb-2" />
@@ -54,7 +54,7 @@ const MyWasteDetailsPage: React.FC = () => {
             </div>
 
             {/* Rate per kg Section */}
-            <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-4">
+            <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
                 <div className="flex justify-between items-center">
                     <p className="text-2xl font-extrabold">Rate per 1kg</p>
                     <p className="text-2xl font-extrabold">2.5</p>
