@@ -15,6 +15,7 @@ const HomePage = lazy(() => import('@pages/client/HomePage'));
 const MyWastePage = lazy(() => import('@pages/client/MyWastePage'));
 const MyWasteDetailsPage = lazy(() => import('@pages/client/MyWasteDetailsPage'));
 const ProfilePage = lazy(() => import('@pages/client/ProfilePage'));
+const ProfileEditPage = lazy(() => import('@pages/client/ProfileEditPage'));
 const PointsPage = lazy(() => import('@pages/client/PointsPage'));
 const PaymentsPage = lazy(() => import('@pages/client/PaymentsPage'));
 const NotificationsPage = lazy(() => import('@pages/client/NotificationsPage'));
@@ -33,6 +34,7 @@ export const clientRoutes = [
             { path: 'my-waste', element: <MyWastePage /> },
             { path: 'my-waste-details', element: <MyWasteDetailsPage /> },
             { path: 'profile', element: <ProfilePage /> },
+            { path: 'edit-profile', element: <ProfileEditPage /> },
             { path: 'points', element: <PointsPage /> },
             { path: 'payments', element: <PaymentsPage /> },
             { path: 'notifications', element: <NotificationsPage /> },
