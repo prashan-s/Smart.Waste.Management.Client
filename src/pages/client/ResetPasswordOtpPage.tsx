@@ -68,7 +68,7 @@ const ResetPasswordOtpPage: React.FC = () => {
             if (error instanceof Error) {
                 showToast('error', 'Error', error.message || 'Failed to resend OTP.');
             } else {
-                showToast('error', 'Error', 'Unknown error occurred.');
+                showToast('error', 'Error', 'Failed to resend OTP.');
             }
         } finally {
             setLoading(false); // Stop loading state
@@ -87,7 +87,7 @@ const ResetPasswordOtpPage: React.FC = () => {
             if (error instanceof Error) {
                 showToast('error', 'Error', error.message || 'Failed to reset password.');
             } else {
-                showToast('error', 'Error', 'Unknown error occurred.');
+                showToast('error', 'Error', 'Failed to reset password.');
             }
         } finally {
             setLoading(false);

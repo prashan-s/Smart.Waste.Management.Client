@@ -62,7 +62,7 @@ const ResetPasswordPage: React.FC = () => {
             if (error instanceof Error) {
                 showToast('error', 'Error', error?.message || 'Failed to send OTP.');
             } else {
-                showToast('error', 'Error', 'Unknown error occurred.');
+                showToast('error', 'Error', 'Failed to send OTP.');
             }
         } finally {
             setLoading(false); // Reset the loading state

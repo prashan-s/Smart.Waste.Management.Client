@@ -13,6 +13,13 @@ interface SignInData {
     password: string;
 }
 
+interface UpdateProfileData {
+    fullName: string;
+    email: string;
+    mobileNumber: string;
+    address: string;
+}
+
 // Sign-up function
 export const signUpUser = (data: SignUpData) => {
     return axiosInstance.post('/user/register', data)
@@ -58,5 +65,23 @@ export const requestOtpForEmail = (email: string) => {
         .then(response => response.data)
         .catch(error => {
             throw error.response?.data?.message || 'Request OTP via email failed';
+        });
+};
+
+// Fetch user profile function
+export const fetchUserProfile = () => {
+    return axiosInstance.get<UpdateProfileData>('/user/info')
+        .then(response => response.data)
+        .catch(error => {
+            throw error.response?.data?.message || 'Failed to load profile data';
+        });
+};
+
+// Update user profile function
+export const updateUserProfile = (data: UpdateProfileData) => {
+    return axiosInstance.put('/user/update', data)
+        .then(response => response.data)
+        .catch(error => {
+            throw error.response?.data?.message || 'Profile update failed';
         });
 };

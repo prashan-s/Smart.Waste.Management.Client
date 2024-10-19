@@ -46,9 +46,13 @@ const SignInPage: React.FC = () => {
             login(accessToken); // Store the token in session storage using the login function
             showToast('success', 'Success', 'Sign-in successful');
             navigate('/dashboard'); // Redirect after successful login
-        } catch (error: any) {
-            showToast('error', 'Error', error.toString());
-            console.error('Sign-in error:', error);
+        } catch (error) {
+            // Type narrowing for error object
+            if (error instanceof Error) {
+                showToast('error', 'Error', error.toString());
+            } else {
+                showToast('error', 'Error', 'Invalid email or password.');
+            }
         }
     };
 

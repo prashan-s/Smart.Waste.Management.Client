@@ -30,7 +30,7 @@ const PasswordResetEmailPage: React.FC = () => {
     const [storedPassword] = useSessionStorage('resetPassword', ''); // Retrieve password from session storage
 
     // Mask the email address for display
-    const maskedEmail = storedEmail ? storedEmail.replace(/(.{2})(.*)(?=@)/, (_, first, middle) => first + middle.replace(/./g, '*')) : '';
+    const maskedEmail = storedEmail ? storedEmail.replace(/(.{2})(.*)(?=@)/, (_: string, first: string, middle: string) => first + middle.replace(/./g, '*')) : '';
 
     // Set up useForm with Yup validation
     const {
@@ -53,7 +53,7 @@ const PasswordResetEmailPage: React.FC = () => {
                 if (error instanceof Error) {
                     showToast('error', 'Error', error.message || 'Failed to send OTP to email.');
                 } else {
-                    showToast('error', 'Error', 'Unknown error occurred.');
+                    showToast('error', 'Error', 'Failed to send OTP to email.');
                 }
             } finally {
                 setLoading(false);
@@ -74,7 +74,7 @@ const PasswordResetEmailPage: React.FC = () => {
             if (error instanceof Error) {
                 showToast('error', 'Error', error.message || 'Failed to reset password.');
             } else {
-                showToast('error', 'Error', 'Unknown error occurred.');
+                showToast('error', 'Error', 'Failed to reset password.');
             }
         } finally {
             setLoading(false);

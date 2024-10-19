@@ -5,7 +5,7 @@ import { TextField, Button, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { showToast } from '@utils/toastService';
-import { signUpUser } from '@services/userService';
+import { signUpAdmin } from '@services/adminService';
 
 // Validation Schema for Sign Up
 const schema = yup.object({
@@ -62,7 +62,7 @@ const SignUpPage: React.FC = () => {
                 fcmToken: "",
             };
 
-            await signUpUser(payload); // Call the sign-up function from the service and make the API call
+            await signUpAdmin(payload); // Call the sign-up function from the service and make the API call
 
             // Handle successful signup
             showToast('success', 'Success', 'Sign up successful');
