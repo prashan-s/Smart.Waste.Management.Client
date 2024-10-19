@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import * as yup from 'yup';
@@ -9,6 +9,8 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import useSessionStorage from '@hooks/useSessionStorage'; // Import the session storage hook
 import { IoArrowBack } from 'react-icons/io5';
+import { signUpUser } from '@services/userService';
+import { showToast } from '@utils/toastService';
 
 // Define the validation schema using Yup for both steps
 const schemaStep1 = yup.object().shape({
@@ -43,6 +45,7 @@ interface ISignUpFormStep2 {
 
 const RegisterPage: React.FC = () => {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false); // State for managing loading
 
     // Using session storage to keep form data across page refreshes
     const [formDataStep1, setFormDataStep1] = useSessionStorage('step1Data', null);
@@ -93,15 +96,46 @@ const RegisterPage: React.FC = () => {
         setCurrentStep(2); // Save step 2 in session storage
     };
 
-    // Handle form submission for Step 2
-    const onSubmitStep2: SubmitHandler<ISignUpFormStep2> = (data) => {
+    // Handle form submission for Step 2 (API Call)
+    const onSubmitStep2: SubmitHandler<ISignUpFormStep2> = async (data) => {
         setFormDataStep2(data); // Save step 2 data to session storage
-        console.log('Registration Data:', { ...formDataStep1, ...data });
-        sessionStorage.removeItem('step1Data'); // Clear data from session storage
-        sessionStorage.removeItem('step2Data');
-        sessionStorage.removeItem('currentStep'); // Clear current step from session storage
-        navigate('/client'); // Navigate to client dashboard after successful registration
+
+        const payload = {
+            mobileNumber: formDataStep1.contactNumber,
+            email: data.email,
+            password: data.password,
+            fullName: formDataStep1.name,
+            fcmToken: '',
+        };
+
+        setLoading(true); // Set loading to true before the API call
+        try {
+            await signUpUser(payload); // Call the sign-up function from the service and make the API call
+
+            // Clear session storage after successful registration
+            sessionStorage.removeItem('step1Data');
+            sessionStorage.removeItem('step2Data');
+            sessionStorage.removeItem('currentStep');
+
+            // Navigate to client homepage
+            showToast('success', 'Success', 'Sign up successful');
+            navigate('/client/sign-in');
+        } catch (error) {
+            console.error('Error during registration:', error);
+        } finally {
+            setLoading(false); // Reset loading state after API call is completed
+        }
     };
+
+    // // Handle form submission for Step 2
+    // const onSubmitStep2: SubmitHandler<ISignUpFormStep2> = (data) => {
+    //     setFormDataStep2(data); // Save step 2 data to session storage
+    //     console.log('Registration Data:', { ...formDataStep1, ...data });
+    //     sessionStorage.removeItem('step1Data'); // Clear data from session storage
+    //     sessionStorage.removeItem('step2Data');
+    //     sessionStorage.removeItem('currentStep'); // Clear current step from session storage
+    //     navigate('/client'); // Navigate to client dashboard after successful registration
+    // };
 
     const handleBackToStep1 = () => {
         setCurrentStep(1); // Navigate back to step 1 and save it in session storage
@@ -215,7 +249,7 @@ const RegisterPage: React.FC = () => {
 
                             {/* Next Button */}
                             <div className="w-full mt-6">
-                                <Button label="Next" className="w-full bg-tertiary text-white text-lg font-semibold py-2 px-8" />
+                                <Button label="Next" className="w-full bg-tertiary text-white text-lg font-semibold py-2 px-8" loading={loading} />
                             </div>
                         </form>
                     ) : (
@@ -301,7 +335,7 @@ const RegisterPage: React.FC = () => {
 
                             {/* Register Button */}
                             <div className="w-full mt-6">
-                                <Button label="Register" className="w-full bg-tertiary text-white text-lg font-semibold py-2 px-8" />
+                                <Button label="Register" className="w-full bg-tertiary text-white text-lg font-semibold py-2 px-8" loading={loading} />
                             </div>
                         </form>
                     )}

@@ -50,7 +50,7 @@ axiosInstance.interceptors.response.use(
         const errorMessage = error.response?.data?.Message || error.response?.data?.message || 'An error occurred';
 
         // Show the toast
-        showToast('error', 'Error', errorMessage);
+        // showToast('error', 'Error', errorMessage);
 
         return Promise.reject({
             statusCode,

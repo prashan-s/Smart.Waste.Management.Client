@@ -18,7 +18,7 @@ export const signUpUser = (data: SignUpData) => {
     return axiosInstance.post('/user/register', data)
         .then(response => response.data)
         .catch(error => {
-            throw error.response?.data?.message || 'Sign-up failed';
+            throw error.response?.data?.message || 'Sign up failed';
         });
 };
 
@@ -30,6 +30,6 @@ export const signInUser = (data: SignInData) => {
             return { accessToken: access_token, refreshToken: refresh_token };
         })
         .catch(error => {
-            throw error.response?.data?.message || 'Sign-in failed';
+            throw error.response?.data?.message || 'Sign in failed';
         });
 };

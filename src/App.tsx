@@ -6,6 +6,7 @@ import { clientRoutes } from "@routes/ClientRoutes";
 import { dashboardRoutes } from "@routes/DashboardRoutes";
 import { Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastService } from "@utils/toastService";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
             </Routes>
           </Suspense>
         </AuthProvider>
+        <ToastService />
       </BrowserRouter>
     </ThemeProvider>
   )

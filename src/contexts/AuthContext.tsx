@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const logout = () => {
-        setAccessToken(null);
+        sessionStorage.clear();
         const redirectPath = location.pathname.startsWith('/client') ? '/client/sign-in' : '/dashboard/sign-in';
         navigate(redirectPath);
     };
