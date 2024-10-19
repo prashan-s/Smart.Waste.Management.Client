@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import Carousel from '@components/client/Carousel';
 import UserInfo from '@components/client/UserInfo';
-// import CollectionDate from '@components/client/CollectionDate';
 import PreferredCollectionDays from '@components/client/PreferredCollectionDays';
-// import RecyclingProgress from '@components/client/RecyclingProgress';
-// import recycleBinGreen from "@assets/images/recycle-bin1.png";
 import recycleBinOrange from "@assets/images/recycle-bin2.png";
 import RegisterNow from '@components/client/RegisterNow';
 import { showToast } from '@utils/toastService';
 import useSessionStorage from '@hooks/useSessionStorage';
 import { fetchUserProfile, scheduleGarbageCollection } from '@services/userService';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage: React.FC = () => {
+    const navigate = useNavigate();
     const [selectedDay, setSelectedDay] = useState<number | null>(null); // Track selected day
     const [loading, setLoading] = useState(false); // Track API call loading state
     const [, setUserData] = useSessionStorage('userData', null); // Store user data in session storage
@@ -24,10 +23,10 @@ const HomePage: React.FC = () => {
         const fetchUserInfo = async () => {
             try {
                 const response = await fetchUserProfile(); // Call the API
-                setUserData(response.data); // Store response in session storage
+                setUserData(response); // Store response in session storage
 
                 // Map the collectionDay to the correct day index for the calendar
-                const collectionDayIndex = daysOfWeek.indexOf(response.data.collectionDay);
+                const collectionDayIndex = daysOfWeek.indexOf(response.collectionDay);
                 if (collectionDayIndex !== -1) {
                     setSelectedDay(collectionDayIndex); // Set the selected day based on API response
                 }
@@ -61,6 +60,7 @@ const HomePage: React.FC = () => {
             setLoading(true); // Start loading
             await scheduleGarbageCollection(collectionDay);
             showToast('success', 'Success', `Collection scheduled for ${collectionDay}`);
+            navigate('/client/payment');
         } catch (error) {
             if (error instanceof Error) {
                 showToast('error', 'Error', error.message || 'Failed to schedule collection.');

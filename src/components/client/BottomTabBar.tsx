@@ -34,8 +34,8 @@ const BottomTabBar: React.FC = () => {
 
             {/* Profile Tab */}
             <button onClick={() => navigate('/client/profile')} className="flex flex-col items-center focus:outline-none">
-                <LuUser2 size={30} className={isActive(['/client/profile', '/client/edit-profile', '/client/payments', '/client/points']) ? "text-black" : "text-gray-500"} />
-                <span className={`text-xs ${isActive(['/client/profile', '/client/edit-profile', '/client/payments', '/client/points']) ? "text-black" : "text-gray-500"}`}>Profile</span>
+                <LuUser2 size={30} className={isActive(['/client/profile', '/client/edit-profile', '/client/payment-details', '/client/points']) ? "text-black" : "text-gray-500"} />
+                <span className={`text-xs ${isActive(['/client/profile', '/client/edit-profile', '/client/payment-details', '/client/points']) ? "text-black" : "text-gray-500"}`}>Profile</span>
             </button>
         </div>
     );

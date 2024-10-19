@@ -17,7 +17,8 @@ const MyWasteDetailsPage = lazy(() => import('@pages/client/MyWasteDetailsPage')
 const ProfilePage = lazy(() => import('@pages/client/ProfilePage'));
 const ProfileEditPage = lazy(() => import('@pages/client/ProfileEditPage'));
 const PointsPage = lazy(() => import('@pages/client/PointsPage'));
-const PaymentsPage = lazy(() => import('@pages/client/PaymentsPage'));
+const PaymentPage = lazy(() => import('@pages/client/PaymentPage'));
+const PaymentDetailsPage = lazy(() => import('@pages/client/PaymentDetailsPage'));
 const NotificationsPage = lazy(() => import('@pages/client/NotificationsPage'));
 const FeedbackPage = lazy(() => import('@pages/client/FeedbackPage'));
 
@@ -36,7 +37,8 @@ export const clientRoutes = [
             { path: 'profile', element: <ProfilePage /> },
             { path: 'edit-profile', element: <ProfileEditPage /> },
             { path: 'points', element: <PointsPage /> },
-            { path: 'payments', element: <PaymentsPage /> },
+            { path: 'payment', element: <PaymentPage /> },
+            { path: 'payment-details', element: <PaymentDetailsPage /> },
             { path: 'notifications', element: <NotificationsPage /> },
             { path: 'feedback', element: <FeedbackPage /> },
 

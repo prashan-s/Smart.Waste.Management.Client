@@ -13,7 +13,7 @@ const ProfilePage: React.FC = () => {
     // Navigation handlers
     const handleEditProfile = () => navigate('/client/edit-profile');
     const handlePoints = () => navigate('/client/points');
-    const handlePaymentHistory = () => navigate('/client/payments');
+    const handlePaymentHistory = () => navigate('/client/payment-details');
     const handleLogout = () => {
         // Implement logout logic here, for example clearing session
         navigate('/client/sign-in');

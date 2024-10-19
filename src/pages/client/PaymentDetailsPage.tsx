@@ -5,7 +5,7 @@ import visa from '@assets/images/visa.png';
 import { FiTrash2 } from 'react-icons/fi';
 import StickyHeader from '@components/common/StickyHeader'; // Import the reusable StickyHeader component
 
-const PaymentsPage: React.FC = () => {
+const PaymentDetailsPage: React.FC = () => {
     const navigate = useNavigate();
 
     const handleBack = () => {
@@ -78,4 +78,4 @@ const PaymentsPage: React.FC = () => {
     );
 };
 
-export default PaymentsPage;
+export default PaymentDetailsPage;
