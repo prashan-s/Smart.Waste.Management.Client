@@ -7,9 +7,13 @@ import StickyHeader from '@components/common/StickyHeader';
 import pay from '@assets/images/pay.png';
 import PaymentConfirmation from '@components/client/PaymentConfirmation';
 import { showToast } from '@utils/toastService';
+import axiosInstance from '@helper/axiosInstance';
+import useSessionStorage from '@hooks/useSessionStorage';
 
 const HOUSEHOLD_PRICE = 2000;
-const BUSINESS_PRICE = 5000;
+const BUSINESS_PRICE = 3000;
+const HOUSEHOLD_QUOTA = 50;
+const BUSINESS_QUOTA = 250;
 
 interface FormData {
     type: string;
@@ -19,8 +23,9 @@ const PaymentPage: React.FC = () => {
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
     const [selectedPlan, setSelectedPlan] = useState('Household');
-    const [businessRange, setBusinessRange] = useState(1);
+    const [businessRange, setBusinessRange] = useState(0);
     const [showPayment, setShowPayment] = useState(false);
+    const [subscriptionFee, setSubscriptionFee] = useSessionStorage('subscriptionFee', null);
 
     const handleBack = () => {
         navigate(-1);
@@ -34,11 +39,36 @@ const PaymentPage: React.FC = () => {
         setBusinessRange(value as number);
     };
 
-    const onSubmit = async (_data: FormData) => {
-        setShowPayment(true);
+    const formatAmount = (amount: number) => {
+        return amount.toFixed(2); // Ensure two decimal places
     };
 
-    const price = selectedPlan === 'Household' ? HOUSEHOLD_PRICE : BUSINESS_PRICE * businessRange;
+    const onSubmit = async (_data: FormData) => {
+        const businessType = selectedPlan === 'Household' ? 'HOUSE' : 'BUSINESS';
+        const volume = selectedPlan === 'Household' ? HOUSEHOLD_QUOTA : businessRange * BUSINESS_QUOTA;
+        const fee = selectedPlan === 'Household' ? HOUSEHOLD_PRICE : BUSINESS_PRICE + (businessRange * BUSINESS_QUOTA);
+        const formattedSubscriptionFee = formatAmount(fee);
+        setSubscriptionFee(formattedSubscriptionFee);
+
+        try {
+            // Make the PUT request with query parameters
+            await axiosInstance.put(`/user/update-volume`, null, {
+                params: {
+                    volume,
+                    businessType,
+                    subscriptionFee: fee,
+                }
+            });
+
+            setShowPayment(true);
+        } catch (error) {
+            setShowPayment(false);
+            showToast('error', 'Error', 'An error occurred during the payment process');
+        }
+    };
+
+    const price = formatAmount(selectedPlan === 'Household' ? HOUSEHOLD_PRICE : BUSINESS_PRICE + (businessRange * BUSINESS_QUOTA));
+    const totalBusinessVolume = businessRange * BUSINESS_QUOTA;
 
     const goNext = () => {
         setShowPayment(false);
@@ -61,6 +91,7 @@ const PaymentPage: React.FC = () => {
         <div className="min-h-screen bg-[#F5F9F7] flex flex-col px-4 pt-6 pb-28 md:pb-28">
             {showPayment ? (
                 <PaymentConfirmation
+                    amount={subscriptionFee.toString()}
                     goNext={goNext}
                     goBack={goBack}
                     onPaymentError={onPaymentError}
@@ -126,11 +157,15 @@ const PaymentPage: React.FC = () => {
                                         onChange={handleBusinessRangeChange}
                                         step={1}
                                         marks
-                                        min={1}
-                                        max={5}
+                                        min={0}
+                                        max={4}
                                         color="success"
                                         valueLabelDisplay="on"
                                     />
+                                    {/* Display the calculated KG below the slider */}
+                                    <h1 className="font-bold text-2xl text-center">
+                                        Quota : {totalBusinessVolume == 0 ? 100 : totalBusinessVolume} Kg
+                                    </h1>
                                 </CardContent>
                             </Card>
                         )}
