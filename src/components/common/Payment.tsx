@@ -55,11 +55,10 @@ const Payment: React.FC<PaymentProps> = ({
 
             const payment = {
                 sandbox: true,
-                preapprove: true,
                 merchant_id: "1225830",
-                return_url: "http://localhost:5173/client/payment",
-                cancel_url: "http://localhost:5173/client/payment",
-                notify_url: "https://app.dulanga.com/api/v1/swms/payment/notify-approval",
+                return_url: "https://app.dulanga.com/client/payment",
+                cancel_url: "https://app.dulanga.com/client/payment",
+                notify_url: "https://app.dulanga.com/client/payment",
                 order_id,
                 items: paymentTitle,
                 amount: amount,
@@ -82,7 +81,7 @@ const Payment: React.FC<PaymentProps> = ({
         }
     };
 
-    (window as any).payhere.onCompleted = async function onCompleted(order_id: any) {
+    (window as any).payhere.onCompleted = async function onCompleted() {
         try {
             goNext();
         } catch (error) {

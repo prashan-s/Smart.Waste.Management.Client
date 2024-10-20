@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import StickyHeader from '@components/common/StickyHeader';
 import { PiShieldStar } from "react-icons/pi";

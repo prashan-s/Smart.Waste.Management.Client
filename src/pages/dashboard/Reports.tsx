@@ -78,13 +78,13 @@ const Reports = () => {
             {/* Filters Section */}
             <div className="grid grid-cols-4 gap-4 mt-10">
                 <CustomSelect
-                    options={['']}
+                    options={[]}
                     value={location}
                     onChange={setLocation}
                     placeholder="Location"
                 />
                 <CustomSelect
-                    options={['']}
+                    options={[]}
                     value={category}
                     onChange={setCategory}
                     placeholder="Category"
@@ -96,7 +96,7 @@ const Reports = () => {
                     />
                 </LocalizationProvider>
                 <CustomSelect
-                    options={['']}
+                    options={[]}
                     value={customerType}
                     onChange={setCustomerType}
                     placeholder="Customer Type"

@@ -36,7 +36,7 @@ const AddCollectionPage = () => {
     const [wasteCollectionDTO, setWasteCollectionDTO] = useState({
         userId: '',
         wasteTypeId: '',
-        weight: ''
+        weight: 0
     });
 
     // Fetch data on page load
@@ -84,7 +84,7 @@ const AddCollectionPage = () => {
             saveWasteCollection(wasteCollectionDTO)
                 .then(() => {
                     alert("Waste collection saved successfully!");
-                    setWasteCollectionDTO({ userId: '', wasteTypeId: '', weight: '' }); // Reset fields
+                    setWasteCollectionDTO({ userId: '', wasteTypeId: '', weight: 0 }); // Reset fields
                 })
                 .catch(error => {
                     console.error("Error saving waste collection:", error);
@@ -103,9 +103,9 @@ const AddCollectionPage = () => {
             <div className="grid grid-cols-4 gap-4 mt-10">
                 {/* User Select */}
                 <CustomSelect
-                    options={users.map(user => ({
-                        label: user.fullName || 'Unnamed User', 
-                        value: user.id || 'Unknown' 
+                    options={users.map((user: any) => ({
+                        label: user.fullName || 'Unnamed User',
+                        value: user.id || 'Unknown'
                     }))}
                     value={wasteCollectionDTO.userId}
                     onChange={value => handleInputChange('userId', value)}
@@ -114,8 +114,8 @@ const AddCollectionPage = () => {
 
                 {/* Waste Type Select */}
                 <CustomSelect
-                    options={wasteTypes.map(type => ({
-                        label: type.wasteName, 
+                    options={wasteTypes.map((type: any) => ({
+                        label: type.wasteName,
                         value: type.id
                     }))}
                     value={wasteCollectionDTO.wasteTypeId}
@@ -155,7 +155,7 @@ const AddCollectionPage = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {wasteCollections.map((collection, index) => (
+                        {wasteCollections.map((collection: any, index) => (
                             <StyledTableRow key={index}>
                                 <StyledTableCell>{collection.userName}</StyledTableCell>
                                 <StyledTableCell>{collection.wasteTypeName}</StyledTableCell>
