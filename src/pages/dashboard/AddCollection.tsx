@@ -157,8 +157,8 @@ const AddCollectionPage = () => {
                     <TableBody>
                         {wasteCollections.map((collection, index) => (
                             <StyledTableRow key={index}>
-                                <StyledTableCell>{collection.userId}</StyledTableCell>
-                                <StyledTableCell>{collection.wasteTypeId}</StyledTableCell>
+                                <StyledTableCell>{collection.userName}</StyledTableCell>
+                                <StyledTableCell>{collection.wasteTypeName}</StyledTableCell>
                                 <StyledTableCell>{collection.weight}</StyledTableCell>
                                 <StyledTableCell>{new Date(collection.collectionDate).toLocaleString()}</StyledTableCell>
                             </StyledTableRow>
