@@ -18,7 +18,24 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    "baseUrl": "./",
+
+    /* Paths */
+    "paths": {
+      "@assets/*": ["src/assets/*"],
+      "@components/*": ["src/components/*"],
+      "@contexts/*": ["src/contexts/*"],
+      "@helper/*": ["src/helper/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@pages/*": ["src/pages/*"],
+      "@redux/*": ["src/redux/*"],
+      "@routes/*":["src/routes/*"],
+      "@services/*":["src/services/*"],
+      "@theme/*":["src/theme/*"],
+      "@utils/*": ["src/utils/*"],
+    }
   },
   "include": ["src"]
 }
