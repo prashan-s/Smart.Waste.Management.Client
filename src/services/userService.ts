@@ -13,6 +13,12 @@ interface SignInData {
     password: string;
 }
 
+interface WasteCollectionDTO {
+    userId: string;
+    wasteTypeId: string;
+    weight: number;
+}
+
 interface UpdateProfileData {
     fullName: string;
     email: string;
@@ -91,5 +97,69 @@ export const scheduleGarbageCollection = async (collectionDay: string) => {
         .then(response => response.data)
         .catch(error => {
             throw error.response?.data?.message || 'Failed to schedule collection.';
+        });
+};
+
+// get category wise user points function
+export const getCategoryPoints = (wasteTypeId: string) => {
+    return axiosInstance.get(`/point/waste-type-point?wasteTypeId=${wasteTypeId}`)
+        .then(response => response.data)
+        .catch(error => {
+            throw error.response?.data?.message || 'Points retrieval failed';
+        });
+};
+
+// Get all users function
+export const getAllUsers = () => {
+    return axiosInstance.get('/user/all')
+        .then(response => response.data)
+        .catch(error => {
+            throw error.response?.data?.message || 'Users retrieval failed';
+        });
+};
+
+// Get all waste collections (newest to oldest) function
+export const getAllWasteCollections = () => {
+    return axiosInstance.get('/waste-collection/all')
+        .then(response => response.data)
+        .catch(error => {
+            throw error.response?.data?.message || 'Waste collections retrieval failed';
+        });
+};
+
+// Function to save a waste collection
+export const saveWasteCollection = (data: WasteCollectionDTO) => {
+    return axiosInstance.post('/waste-collection/collect', data)
+        .then(response => response.data)
+        .catch(error => {
+            throw error.response?.data?.message || 'Saving waste collection failed';
+        });
+};
+
+// Function to fetch waste type weights for the authenticated user
+export const getWasteTypeWeightsForUser = () => {
+    return axiosInstance.get('/chart-details')
+        .then(response => response.data)
+        .catch(error => {
+            throw error.response?.data?.message || 'Failed to fetch chart details';
+        });
+};
+
+// get waste type details function
+export const getWasteTypeDetails = (wasteName: string) => {
+    return axiosInstance.get(`/waste-type/waste/${wasteName}`)
+        .then(response => response.data)
+        .catch(error => {
+            throw error.response?.data?.message || 'Waste Type data retrieval failed';
+        });
+};
+
+
+// Get all waste types function
+export const getAllWasteTypes = () => {
+    return axiosInstance.get('/waste-type/all')
+        .then(response => response.data)
+        .catch(error => {
+            throw error.response?.data?.message || 'Failed to retrieve waste types';
         });
 };
