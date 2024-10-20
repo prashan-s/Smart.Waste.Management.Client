@@ -163,3 +163,12 @@ export const getAllWasteTypes = () => {
             throw error.response?.data?.message || 'Failed to retrieve waste types';
         });
 };
+
+// Function to fetch user points history
+export const getUserPointsHistory = () => {
+    return axiosInstance.get('/user-point/history')
+        .then(response => response.data)
+        .catch(error => {
+            throw error.response?.data?.message || 'Failed to fetch points history';
+        });
+};

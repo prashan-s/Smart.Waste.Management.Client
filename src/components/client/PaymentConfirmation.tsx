@@ -1,13 +1,17 @@
-import { useState } from "react";
 import useSessionStorage from "@hooks/useSessionStorage";
 import Payment from "@components/common/Payment";
 
-const PaymentConfirmation = ({ goNext, goBack, onPaymentError }: { goNext: () => void, goBack: () => void, onPaymentError: () => void }) => {
+// Function to generate random order ID
+const generateOrderId = () => {
+    return Math.floor(100000 + Math.random() * 900000); // Random 6-digit order ID
+};
+
+const PaymentConfirmation = ({ amount, goNext, goBack, onPaymentError }: { amount: string, goNext: () => void, goBack: () => void, onPaymentError: () => void }) => {
 
     const paymentTitle = "Urban Eco";
     const currency = "LKR";
+    const orderId = generateOrderId(); // Generate random order ID for each payment
 
-    const [amount,] = useState("100.00");
     const [userData,] = useSessionStorage('userData', null);
 
     const customerDetails = {
@@ -25,7 +29,7 @@ const PaymentConfirmation = ({ goNext, goBack, onPaymentError }: { goNext: () =>
             amount={amount}
             currency={currency}
             userId={userData.id}
-            order_id={1}
+            order_id={orderId}
             customerDetails={customerDetails}
             goNext={goNext}
             goBack={goBack}
