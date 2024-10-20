@@ -7,8 +7,8 @@ const PaymentConfirmation = ({ goNext, goBack }: { goNext: () => void, goBack: (
     const paymentTitle = "Smart Waste Management System";
     const currency = "LKR";
 
-    const [orderDetails,] = useSessionStorage('order-details', null);
-    const [amount, setAmount] = useState(100);
+    // const [orderDetails,] = useSessionStorage('order-details', null);
+    const [amount,] = useState(100);
     const [userData,] = useSessionStorage('userData', null);
 
     const customerDetails = {

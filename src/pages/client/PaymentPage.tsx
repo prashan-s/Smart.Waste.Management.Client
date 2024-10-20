@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MenuItem, Slider, TextField, Card, CardContent, Typography } from '@mui/material';
+import { MenuItem, Slider, TextField, Card, CardContent } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import Button from '@components/client/Button';
 import StickyHeader from '@components/common/StickyHeader';
@@ -29,11 +29,11 @@ const PaymentPage: React.FC = () => {
         setSelectedPlan(event.target.value);
     };
 
-    const handleBusinessRangeChange = (event: Event, value: number | number[]) => {
+    const handleBusinessRangeChange = (_event: Event, value: number | number[]) => {
         setBusinessRange(value as number);
     };
 
-    const onSubmit = async (data: FormData) => {
+    const onSubmit = async (_data: FormData) => {
         setShowPayment(true);
     };
 

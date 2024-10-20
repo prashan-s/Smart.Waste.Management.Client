@@ -2,7 +2,26 @@ import { useEffect } from "react";
 import axiosInstance from "@helper/axiosInstance";
 import useSessionStorage from "@hooks/useSessionStorage";
 
-const Payment = ({
+interface CustomerDetails {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    address: string;
+    city: string;
+}
+
+interface PaymentProps {
+    paymentTitle: string;
+    amount: number;
+    order_id: number;
+    currency: string;
+    customerDetails: CustomerDetails;
+    goNext: () => void;
+    goBack: () => void;
+}
+
+const Payment: React.FC<PaymentProps> = ({
     paymentTitle,
     amount,
     order_id,
@@ -14,7 +33,7 @@ const Payment = ({
 
     const [, setOrderPaymentDetails] = useSessionStorage('order-payment-details', null);
 
-    const fetchHash = async (paymentData) => {
+    const fetchHash = async (paymentData: any) => {
         const response = await axiosInstance.post('/payment/hash', paymentData);
         if (response) {
             const { data } = response;
@@ -36,9 +55,9 @@ const Payment = ({
             const payment = {
                 sandbox: true,
                 merchant_id: "1225830",
-                return_url: "http://localhost:5173/client/payment",
-                cancel_url: "http://localhost:5173/client/payment",
-                notify_url: "http://localhost:5173/client/payment",
+                return_url: "https://app.dulanga.com/client/payment",
+                cancel_url: "https://app.dulanga.com/client/payment",
+                notify_url: "https://app.dulanga.com/client/payment",
                 order_id,
                 items: paymentTitle,
                 amount: amount,
@@ -53,7 +72,7 @@ const Payment = ({
                 country: "Sri Lanka",
             };
             console.log(payment);
-            window.payhere.startPayment(payment);
+            (window as any).payhere.startPayment(payment);
 
         } catch (error) {
             console.error('Error initiating payment:', error);
@@ -70,7 +89,7 @@ const Payment = ({
         }
     }
 
-    const fetchPaymentDetails = async (order_id, accessToken) => {
+    const fetchPaymentDetails = async (order_id: any, accessToken: any) => {
         try {
             const { data } = await axiosInstance.get(`/payment/payment-details`,
                 { params: { order_id: order_id, access_token: accessToken } }
@@ -87,7 +106,7 @@ const Payment = ({
         }
     };
 
-    const insertPaymentDetails = async (paymentDetails) => {
+    const insertPaymentDetails = async (paymentDetails: any) => {
 
         const customer = {
             firstName: paymentDetails.customer.fist_name,
@@ -113,7 +132,7 @@ const Payment = ({
             cardNo: paymentDetails.payment_method.card_no
         };
 
-        const items = paymentDetails.items.map((item) => ({
+        const items = paymentDetails.items.map((item: any) => ({
             name: item.name,
             quantity: item.quantity,
             currency: item.currency,
@@ -145,7 +164,7 @@ const Payment = ({
         }
     };
 
-    window.payhere.onCompleted = async function onCompleted(order_id) {
+    (window as any).payhere.onCompleted = async function onCompleted(order_id: any) {
         try {
             const accessToken = await getAccessToken();
             const paymentDetails = await fetchPaymentDetails(order_id, accessToken);
@@ -159,12 +178,12 @@ const Payment = ({
         }
     };
 
-    window.payhere.onDismissed = function onDismissed() {
+    (window as any).payhere.onDismissed = function onDismissed() {
         console.log("Payment dismissed");
         goBack();
     };
 
-    window.payhere.onError = function onError(error) {
+    (window as any).payhere.onError = function onError(error: any) {
         console.log("Error:" + error);
     };
 
