@@ -13,7 +13,7 @@ const BottomTabBar: React.FC = () => {
     const isActive = (paths: string[]) => paths.includes(location.pathname);
 
     return (
-        <div className="fixed bottom-0 left-0 right-0 bg-white shadow-lg py-5 md:py-6 flex justify-around">
+        <div className="fixed bottom-0 left-0 right-0 bg-[#EBF9EC] border-t border-gray-300 shadow-md py-5 md:py-6 flex justify-around">
             {/* Home Tab */}
             <button onClick={() => navigate('/client')} className="flex flex-col items-center focus:outline-none">
                 <MdHomeFilled size={30} className={isActive(['/client']) ? "text-black" : "text-gray-500"} />
