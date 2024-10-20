@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiSettings } from 'react-icons/fi';
 import { BiHistory } from 'react-icons/bi';
@@ -6,6 +6,7 @@ import { TbLogout } from 'react-icons/tb';
 import { PiCopySimple } from "react-icons/pi";
 import userAvatar from '@assets/images/male-avatar.png';
 import Header from '@components/client/Header';
+import useSessionStorage from '@hooks/useSessionStorage';
 
 const ProfilePage: React.FC = () => {
     const navigate = useNavigate();
@@ -18,6 +19,15 @@ const ProfilePage: React.FC = () => {
         // Implement logout logic here, for example clearing session
         navigate('/client/sign-in');
     };
+
+    const [userdata,] = useSessionStorage('userData', null);
+    const [userName, setUserName] = useState('');
+
+    useEffect(() => {
+        if (userdata && userdata.fullName) {
+            setUserName(userdata.fullName);
+        }
+    }, [userdata]); // useEffect runs when userdata changes
 
     return (
         <div className="min-h-screen bg-[#EBF9EC] flex flex-col items-center py-10 px-5">
@@ -33,7 +43,7 @@ const ProfilePage: React.FC = () => {
                     alt="User Avatar"
                     className="w-24 h-24 rounded-full"
                 />
-                <h2 className="mt-4 text-2xl font-semibold text-[#1C170D]">Dulanga</h2>
+                <h2 className="mt-4 text-2xl font-semibold text-[#1C170D]">{userName || "Dulanga"}</h2>
             </div>
 
             {/* Action List */}
