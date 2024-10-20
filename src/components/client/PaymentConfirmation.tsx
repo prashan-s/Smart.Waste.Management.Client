@@ -4,7 +4,7 @@ import Payment from "@components/common/Payment";
 
 const PaymentConfirmation = ({ goNext, goBack, onPaymentError }: { goNext: () => void, goBack: () => void, onPaymentError: () => void }) => {
 
-    const paymentTitle = "Smart Waste Management System";
+    const paymentTitle = "Urban Eco";
     const currency = "LKR";
 
     const [amount,] = useState("100.00");
