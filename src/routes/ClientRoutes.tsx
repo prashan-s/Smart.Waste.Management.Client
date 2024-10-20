@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 import ClientLayout from '@components/layouts/ClientLayout';
 
 // Lazy-loaded components for the client mobile journey
+const OnboardingPage = lazy(() => import('@pages/client/OnboardingPage'));
 const LoginPage = lazy(() => import('@pages/client/LoginPage'));
 const RegisterPage = lazy(() => import('@pages/client/RegisterPage'));
 const ResetPasswordPage = lazy(() => import('@pages/client/ResetPasswordPage'));
@@ -44,6 +45,10 @@ export const clientRoutes = [
             { path: 'feedback', element: <FeedbackPage /> },
 
         ],
+    },
+    {
+        path: '/client/onboarding',
+        element: <OnboardingPage />,
     },
     {
         path: '/client/sign-in',

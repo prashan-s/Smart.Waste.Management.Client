@@ -73,7 +73,7 @@ const HomePage: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#F5F9F7] flex flex-col items-center justify-start pb-28 md:pb-28">
+        <div className="min-h-screen bg-[#EBF9EC] flex flex-col items-center justify-start pb-28 md:pb-28">
             {/* Carousel Section */}
             <div className="w-full relative">
                 <Carousel />
