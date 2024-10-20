@@ -31,3 +31,12 @@ export const getPaymentHistory = async (): Promise<PaymentHistoryResponse> => {
         throw error.response?.data?.message || 'Failed to fetch payment history';
     }
 };
+
+// Function to delete a card
+export const deleteCard = async (cardId: string): Promise<void> => {
+    try {
+        await axiosInstance.delete(`/payment/delete/${cardId}`);
+    } catch (error: any) {
+        throw error.response?.data?.message || 'Failed to delete card';
+    }
+};

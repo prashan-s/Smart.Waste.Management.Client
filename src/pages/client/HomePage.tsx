@@ -74,48 +74,50 @@ const HomePage: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-[#EBF9EC] flex flex-col items-center justify-start pb-28 md:pb-28">
-            {/* Carousel Section */}
-            <div className="w-full relative">
-                <Carousel />
-                <div className="absolute bottom-2 left-2 md:bottom-4 md:left-4">
-                    <h2 className="text-white text-3xl md:text-6xl font-semibold">Welcome, Dulanga!</h2>
+            <div className="w-full max-w-md">
+                {/* Carousel Section */}
+                <div className="w-full relative">
+                    <Carousel />
+                    <div className="absolute bottom-2 left-2 md:bottom-4 md:left-4">
+                        <h2 className="text-white text-3xl md:text-4xl font-semibold">Welcome, Dulanga!</h2>
+                    </div>
                 </div>
-            </div>
 
-            {/* User Info Section */}
-            <div className="w-full px-4 md:px-6 mt-4 md:mt-6">
-                <UserInfo fullName="Dulanga" />
-            </div>
+                {/* User Info Section */}
+                <div className="w-full px-4 md:px-6 mt-4 md:mt-6">
+                    <UserInfo fullName="Dulanga" />
+                </div>
 
-            {/* Image Placeholder */}
-            <div className="w-full px-4 md:px-6 mt-6">
-                <img src={recycleBinOrange} className="w-full h-auto" />
-            </div>
+                {/* Image Placeholder */}
+                <div className="w-full px-4 md:px-6 mt-6">
+                    <img src={recycleBinOrange} className="w-full h-auto" />
+                </div>
 
-            {/* Register Now Section */}
-            <div className="w-full px-4 md:px-6">
-                <RegisterNow />
-            </div>
+                {/* Register Now Section */}
+                <div className="w-full px-4 md:px-6">
+                    <RegisterNow />
+                </div>
 
-            {/* Preferred Collection Days Section */}
-            <div className="w-full px-4 md:px-6">
-                <PreferredCollectionDays
-                    heading="Select Pickup Days"
-                    showMessage={false} // No message on initial render
-                    onDaySelect={handleDaySelect}
-                    selectedDay={selectedDay} // Pass the selected day from the parent component
-                />
-            </div>
+                {/* Preferred Collection Days Section */}
+                <div className="w-full px-4 md:px-6">
+                    <PreferredCollectionDays
+                        heading="Select Pickup Days"
+                        showMessage={false} // No message on initial render
+                        onDaySelect={handleDaySelect}
+                        selectedDay={selectedDay} // Pass the selected day from the parent component
+                    />
+                </div>
 
-            {/* Get Collected Button */}
-            <div className="w-full px-4 md:px-6 mt-4">
-                <button
-                    className={`bg-tertiary text-white py-2 px-6 rounded-full w-full ${loading ? 'opacity-50' : ''}`}
-                    onClick={handleGetCollectedClick}
-                    disabled={loading}
-                >
-                    {loading ? 'Scheduling...' : 'Get Collected'}
-                </button>
+                {/* Get Collected Button */}
+                <div className="w-full px-4 md:px-6 mt-4">
+                    <button
+                        className={`bg-tertiary text-white py-2 px-6 rounded-full w-full ${loading ? 'opacity-50' : ''}`}
+                        onClick={handleGetCollectedClick}
+                        disabled={loading}
+                    >
+                        {loading ? 'Scheduling...' : 'Get Collected'}
+                    </button>
+                </div>
             </div>
         </div>
     );
