@@ -1,7 +1,7 @@
 // import { FiHome } from "react-icons/fi";
 import { MdOutlineDashboardCustomize } from "react-icons/md";
 import { HiOutlineDocumentReport } from "react-icons/hi";
-import { LuBellRing } from "react-icons/lu";
+import { LuBellRing , LuPlus } from "react-icons/lu";
 import { IoSettingsOutline } from "react-icons/io5";
 import { AiOutlineLogout } from "react-icons/ai";
 import maleAvatar from "@assets/images/male-avatar.png"
@@ -73,6 +73,17 @@ const Sidebar = () => {
                     >
                         <LuBellRing />
                         <span>Notifications</span>
+                    </NavLink>
+                    <NavLink
+                        to="/dashboard/addCollection"
+                        className={({ isActive }) =>
+                            isActive
+                                ? "flex items-center space-x-3 text-primary font-medium mb-6 text-lg focus:outline-none"
+                                : "flex items-center space-x-3 text-textSecondary hover:text-primary font-normal mb-6 text-lg focus:outline-none"
+                        }
+                    >
+                        <LuPlus />
+                        <span>Add Collection</span>
                     </NavLink>
                     <NavLink
                         to="/dashboard/settings"

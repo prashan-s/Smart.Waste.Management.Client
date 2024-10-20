@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import axiosInstance from "@helper/axiosInstance";
-import useSessionStorage from "@hooks/useSessionStorage";
 
 interface CustomerDetails {
     firstName: string;
@@ -13,25 +12,27 @@ interface CustomerDetails {
 
 interface PaymentProps {
     paymentTitle: string;
-    amount: number;
+    amount: string;
+    userId: number;
     order_id: number;
     currency: string;
     customerDetails: CustomerDetails;
     goNext: () => void;
     goBack: () => void;
+    onPaymentError: () => void;
 }
 
 const Payment: React.FC<PaymentProps> = ({
     paymentTitle,
     amount,
+    userId,
     order_id,
     currency,
     customerDetails,
     goNext,
-    goBack
+    goBack,
+    onPaymentError,
 }) => {
-
-    const [, setOrderPaymentDetails] = useSessionStorage('order-payment-details', null);
 
     const fetchHash = async (paymentData: any) => {
         const response = await axiosInstance.post('/payment/hash', paymentData);
@@ -70,6 +71,7 @@ const Payment: React.FC<PaymentProps> = ({
                 address: customerDetails.address,
                 city: customerDetails.city,
                 country: "Sri Lanka",
+                custom_1: userId,
             };
             console.log(payment);
             (window as any).payhere.startPayment(payment);
@@ -79,98 +81,8 @@ const Payment: React.FC<PaymentProps> = ({
         }
     };
 
-    const getAccessToken = async () => {
+    (window as any).payhere.onCompleted = async function onCompleted() {
         try {
-            const { data } = await axiosInstance.post('/payment/access-token');
-            return data.accessToken;
-        } catch (error) {
-            console.error('Failed to retrieve access token:', error);
-            throw new Error('Failed to retrieve access token');
-        }
-    }
-
-    const fetchPaymentDetails = async (order_id: any, accessToken: any) => {
-        try {
-            const { data } = await axiosInstance.get(`/payment/payment-details`,
-                { params: { order_id: order_id, access_token: accessToken } }
-            ).then((response) => response.data).catch((error) => error.message);
-
-            if (Array.isArray(data) && data.length > 0) {
-                const sortedPayments = data.sort((a: IPaymentDetail, b: IPaymentDetail) => new Date(b.date).getTime() - new Date(a.date).getTime());
-                return sortedPayments[0];
-            }
-            return data;
-        } catch (error) {
-            console.error('Failed to retrieve access token:', error);
-            throw new Error('Failed to retrieve access token');
-        }
-    };
-
-    const insertPaymentDetails = async (paymentDetails: any) => {
-
-        const customer = {
-            firstName: paymentDetails.customer.fist_name,
-            lastName: paymentDetails.customer.last_name,
-            email: paymentDetails.customer.email,
-            phone: paymentDetails.customer.phone,
-            deliveryDetails: paymentDetails.customer.delivery_details
-        };
-
-        const amountDetail = {
-            currency: paymentDetails.amount_detail.currency,
-            gross: paymentDetails.amount_detail.gross,
-            fee: paymentDetails.amount_detail.fee,
-            net: paymentDetails.amount_detail.net,
-            exchangeRate: paymentDetails.amount_detail.exchange_rate,
-            exchangeFrom: paymentDetails.amount_detail.exchange_from,
-            exchangeTo: paymentDetails.amount_detail.exchange_to
-        };
-
-        const paymentMethod = {
-            method: paymentDetails.payment_method.method,
-            cardCustomerName: paymentDetails.payment_method.card_customer_name,
-            cardNo: paymentDetails.payment_method.card_no
-        };
-
-        const items = paymentDetails.items.map((item: any) => ({
-            name: item.name,
-            quantity: item.quantity,
-            currency: item.currency,
-            unitPrice: item.unit_price,
-            totalPrice: item.total_price
-        }));
-
-        const transformedPayment = {
-            paymentId: paymentDetails.payment_id,
-            orderId: paymentDetails.order_id,
-            paymentDate: new Date(paymentDetails.date),
-            description: paymentDetails.description,
-            paymentStatus: paymentDetails.status,
-            currency: paymentDetails.currency,
-            amount: paymentDetails.amount,
-            customer,
-            amountDetail,
-            paymentMethod,
-            items,
-            customFields: paymentDetails.request
-        };
-
-        try {
-            const response = await axiosInstance.post('/payment', transformedPayment);
-            console.log('Payment Details Inserted:', response.data);
-        } catch (error) {
-            console.error('Failed to insert payment details:', error);
-            throw error;
-        }
-    };
-
-    (window as any).payhere.onCompleted = async function onCompleted(order_id: any) {
-        try {
-            const accessToken = await getAccessToken();
-            const paymentDetails = await fetchPaymentDetails(order_id, accessToken);
-            console.log("Payment Details:", paymentDetails);
-            await insertPaymentDetails(paymentDetails);
-            setOrderPaymentDetails(paymentDetails);
             goNext();
         } catch (error) {
             console.error('Error in payment process:', error);
@@ -185,6 +97,7 @@ const Payment: React.FC<PaymentProps> = ({
 
     (window as any).payhere.onError = function onError(error: any) {
         console.log("Error:" + error);
+        onPaymentError();
     };
 
     useEffect(() => {
@@ -198,50 +111,3 @@ const Payment: React.FC<PaymentProps> = ({
 };
 
 export default Payment;
-
-
-interface IPaymentDetail {
-    payment_id: number;
-    order_id: string;
-    date: string;
-    description: string;
-    status: string;
-    currency: string;
-    amount: number;
-    customer: {
-        fist_name: string;
-        last_name: string;
-        email: string;
-        phone: string;
-        delivery_details: {
-            address: string;
-            city: string;
-            country: string;
-        };
-    };
-    amount_detail: {
-        currency: string;
-        gross: number;
-        fee: number;
-        net: number;
-        exchange_rate: number;
-        exchange_from: string;
-        exchange_to: string;
-    };
-    payment_method: {
-        method: string;
-        card_customer_name: string;
-        card_no: string;
-    };
-    items: Array<{
-        name: string;
-        quantity: number;
-        currency: string;
-        unit_price: number;
-        total_price: number;
-    }>;
-    request: {
-        custom1: string | null;
-        custom2: string | null;
-    };
-}

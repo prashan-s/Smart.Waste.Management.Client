@@ -18,6 +18,7 @@ const ProfilePage = lazy(() => import('@pages/client/ProfilePage'));
 const ProfileEditPage = lazy(() => import('@pages/client/ProfileEditPage'));
 const PointsPage = lazy(() => import('@pages/client/PointsPage'));
 const PaymentPage = lazy(() => import('@pages/client/PaymentPage'));
+const PaymentStatusPage = lazy(() => import('@pages/client/PaymentStatusPage'));
 const PaymentDetailsPage = lazy(() => import('@pages/client/PaymentDetailsPage'));
 const NotificationsPage = lazy(() => import('@pages/client/NotificationsPage'));
 const FeedbackPage = lazy(() => import('@pages/client/FeedbackPage'));
@@ -38,6 +39,7 @@ export const clientRoutes = [
             { path: 'edit-profile', element: <ProfileEditPage /> },
             { path: 'points', element: <PointsPage /> },
             { path: 'payment', element: <PaymentPage /> },
+            { path: 'payment-status', element: <PaymentStatusPage /> },
             { path: 'payment-details', element: <PaymentDetailsPage /> },
             { path: 'notifications', element: <NotificationsPage /> },
             { path: 'feedback', element: <FeedbackPage /> },
