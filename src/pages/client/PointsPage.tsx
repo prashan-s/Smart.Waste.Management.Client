@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import StickyHeader from '@components/common/StickyHeader';
 import { PiShieldStar } from "react-icons/pi";
@@ -8,10 +8,10 @@ import useSessionStorage from '@hooks/useSessionStorage';
 
 const PointsPage: React.FC = () => {
     const navigate = useNavigate();
-    const [userData] = useSessionStorage('userData',{points:3});
-    
+    const [userData] = useSessionStorage('userData', { points: 3 });
+
     const handleBack = () => {
-        navigate(-1); 
+        navigate(-1);
     };
 
     return (

@@ -82,7 +82,7 @@ const Payment: React.FC<PaymentProps> = ({
         }
     };
 
-    (window as any).payhere.onCompleted = async function onCompleted(order_id: any) {
+    (window as any).payhere.onCompleted = async function onCompleted() {
         try {
             goNext();
         } catch (error) {
