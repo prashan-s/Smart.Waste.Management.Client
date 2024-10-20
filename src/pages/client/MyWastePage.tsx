@@ -98,7 +98,7 @@ const MyWastePage: React.FC = () => {
                     {chartData.length > 0 ? (
                         <PieChartComponent data={chartData} />
                     ) : (
-                        <p>Loading chart data...</p> // Fallback when no data
+                        <p>No Result Found</p> 
                     )}
                 </div>
 

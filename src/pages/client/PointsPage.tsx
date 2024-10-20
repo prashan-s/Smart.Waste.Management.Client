@@ -58,7 +58,7 @@ const PointsPage: React.FC = () => {
                         </div>
                         <div className="ml-4">
                             <p className="font-semibold">You've Earned Points</p>
-                            <p className="text-sm text-gray-500">Great job! You've just earned 150 points for your recent purchase.</p>
+                            <p className="text-sm text-gray-500">Great job! You've just earned {150} points for your recent purchase.</p>
                         </div>
                     </div>
                     <button className="text-gray-800 font-semibold">View</button>
