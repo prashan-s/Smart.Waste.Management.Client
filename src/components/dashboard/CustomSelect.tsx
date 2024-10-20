@@ -1,8 +1,13 @@
 import React from 'react';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
+interface Option {
+    label: string;
+    value: string;
+}
+
 interface CustomSelectProps {
-    options: string[];
+    options: Option[]; // Update options to be an array of objects with label and value
     value: string;
     onChange: (option: string) => void;
     placeholder?: string;
@@ -44,8 +49,8 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
                 }}
             >
                 {options.map((option) => (
-                    <MenuItem key={option} value={option}>
-                        {option}
+                    <MenuItem key={option.value} value={option.value}>
+                        {option.label}
                     </MenuItem>
                 ))}
             </Select>

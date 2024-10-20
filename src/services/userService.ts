@@ -181,6 +181,15 @@ export const getAllUsers = () => {
         });
 };
 
+// Get all waste types function
+export const getAllWasteTypes = () => {
+    return axiosInstance.get('/waste-type/all')
+        .then(response => response.data)
+        .catch(error => {
+            throw error.response?.data?.message || 'Failed to retrieve waste types';
+        });
+};
+
 // Get all waste collections (newest to oldest) function
 export const getAllWasteCollections = () => {
     return axiosInstance.get('/waste-collection/all')

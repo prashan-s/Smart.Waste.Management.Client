@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
 import StickyHeader from '@components/common/StickyHeader';
 import eWasteImage from '@assets/images/electric-waste.png';
 import dustbin from '@assets/images/dustbin.png';
@@ -21,7 +20,6 @@ const MyWastePage: React.FC = () => {
     const navigate = useNavigate();
     const [, setWasteDetails] = useSessionStorage('wasteDetails', {});
     const [chartData, setChartData] = useState([]);
-
 
     // When click a category
     const handleWasteCategoryClick = async (wasteName: string, imageSrc: string) => {
