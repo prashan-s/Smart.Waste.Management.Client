@@ -1,68 +1,101 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import "primereact/resources/themes/lara-light-cyan/theme.css";
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+
+/* Import Tailwind CSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* global.css */
+
+/* 1. Box Sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 2. Remove Default Margins and Padding */
+html,
+body,
+h1, h2, h3, h4, h5, h6,
+p, blockquote, pre,
+dl, dd,
+ol, ul,
+figure,
+hr,
+button, input, textarea, select, a {
+  margin: 0;
+  padding: 0;
+}
+
+/* 3. Set Base Font Styles */
+html {
+  font-size: 100%; /* 16px */
   line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  -webkit-text-size-adjust: 100%; /* Prevent font scaling in mobile browsers */
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
   min-height: 100vh;
+  line-height: inherit;
+  font-family: 'Inter', sans-serif; /* Example font, customize as needed */
+  background-color: #ffffff; /* Set a default background color */
+  color: #333333; /* Set a default text color */
+  scroll-behavior: smooth; /* Smooth scrolling for in-page links */
+  -webkit-font-smoothing: antialiased; /* Improve font rendering on WebKit */
+  -moz-osx-font-smoothing: grayscale; /* Improve font rendering on Firefox */
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* 4. Remove List Styles */
+ol, ul {
+  list-style: none;
 }
 
+/* 5. Remove Link Decorations and Set Inherited Color */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 6. Set Default Image Styles */
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* 7. Set Default Form Element Styles */
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+/* 8. Set Default Button Styles */
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+/* 9. Ensure Tables Take Full Width */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 10. Accessible Focus Styles */
+:focus {
+  outline: 2px solid #005fcc; /* Customize focus outline color */
+  outline-offset: 2px;
+}
+
+/* 11. Hide Scrollbar (Optional) */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
