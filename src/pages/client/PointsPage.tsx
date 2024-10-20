@@ -4,12 +4,14 @@ import StickyHeader from '@components/common/StickyHeader';
 import { PiShieldStar } from "react-icons/pi";
 import star from '@assets/images/star.png';
 import reward from '@assets/images/reward.png';
+import useSessionStorage from '@hooks/useSessionStorage';
 
 const PointsPage: React.FC = () => {
     const navigate = useNavigate();
+    const [userData] = useSessionStorage('userData', { points: 3 });
 
     const handleBack = () => {
-        navigate(-1); // Navigate back to the previous page
+        navigate(-1);
     };
 
     return (
@@ -26,7 +28,7 @@ const PointsPage: React.FC = () => {
                 <div className="flex items-center">
                     <img src={star} alt="Star" className="w-10 h-10 mr-4" />
                     <div>
-                        <p className="text-4xl font-extrabold">256</p>
+                        <p className="text-4xl font-extrabold">{userData.points}</p>
                         <p className="text-sm text-gray-500 font-bold">Available points</p>
                     </div>
                 </div>
@@ -56,7 +58,7 @@ const PointsPage: React.FC = () => {
                         </div>
                         <div className="ml-4">
                             <p className="font-semibold">You've Earned Points</p>
-                            <p className="text-sm text-gray-500">Great job! You've just earned 150 points for your recent purchase.</p>
+                            <p className="text-sm text-gray-500">Great job! You've just earned {150} points for your recent purchase.</p>
                         </div>
                     </div>
                     <button className="text-gray-800 font-semibold">View</button>

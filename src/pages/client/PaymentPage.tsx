@@ -6,6 +6,7 @@ import Button from '@components/client/Button';
 import StickyHeader from '@components/common/StickyHeader';
 import pay from '@assets/images/pay.png';
 import PaymentConfirmation from '@components/client/PaymentConfirmation';
+import { showToast } from '@utils/toastService';
 
 const HOUSEHOLD_PRICE = 2000;
 const BUSINESS_PRICE = 5000;
@@ -41,13 +42,20 @@ const PaymentPage: React.FC = () => {
 
     const goNext = () => {
         setShowPayment(false);
-        alert("Payment Successful");
+        showToast('success', 'Success', 'Payment Successful');
+        navigate('/client/payment-status', { state: { isPaymentSuccessful: true } });
     };
 
     const goBack = () => {
         setShowPayment(false);
-        alert("Payment Cancelled or Failed");
+        showToast('info', 'Info', 'Payment Cancelled');
     };
+
+    const onPaymentError = () => {
+        setShowPayment(false);
+        showToast('info', 'Info', 'Payment Failed');
+        navigate('/client/payment-status', { state: { isPaymentSuccessful: false } });
+    }
 
     return (
         <div className="min-h-screen bg-[#F5F9F7] flex flex-col px-4 pt-6 pb-28 md:pb-28">
@@ -55,6 +63,7 @@ const PaymentPage: React.FC = () => {
                 <PaymentConfirmation
                     goNext={goNext}
                     goBack={goBack}
+                    onPaymentError={onPaymentError}
                 />
             ) : (
                 <>

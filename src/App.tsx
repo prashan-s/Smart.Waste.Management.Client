@@ -5,7 +5,7 @@ import theme from "@theme/theme";
 import { clientRoutes } from "@routes/ClientRoutes";
 import { dashboardRoutes } from "@routes/DashboardRoutes";
 import { Suspense } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"; // Import Navigate
 import { ToastService } from "@utils/toastService";
 
 function App() {
@@ -15,6 +15,9 @@ function App() {
         <AuthProvider>
           <Suspense fallback={<Loader loading={true} />}>
             <Routes>
+              {/* Redirect root path to /client */}
+              <Route path="/" element={<Navigate to="/client" replace />} />
+
               {/* Dashboard routes */}
               {dashboardRoutes.map((route) => (
                 <Route key={route.path} path={route.path} element={route.element}>
@@ -38,7 +41,7 @@ function App() {
         <ToastService />
       </BrowserRouter>
     </ThemeProvider>
-  )
+  );
 }
 
-export default App
+export default App;
