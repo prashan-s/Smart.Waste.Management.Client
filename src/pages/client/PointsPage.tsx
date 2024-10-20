@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import StickyHeader from '@components/common/StickyHeader';
 import { PiShieldStar } from "react-icons/pi";
 import star from '@assets/images/star.png';
-import reward from '@assets/images/reward.png';
 import useSessionStorage from '@hooks/useSessionStorage';
 import { getUserPointsHistory } from '@services/userService';
 
@@ -115,7 +114,7 @@ const PointsPage: React.FC = () => {
             </div>
             {/* History Items */}
             {error && <p className="text-red-500">{error}</p>}
-            {pointsHistory.length > 0 ? pointsHistory.map((history, index) => (
+            {pointsHistory.length > 0 ? pointsHistory.map((history: any, index: number) => (
                 <div key={index} className="w-full max-w-md bg-white rounded-lg p-4 mb-4 shadow-lg">
                     <div className="flex justify-between items-center">
                         <div className="flex items-center">

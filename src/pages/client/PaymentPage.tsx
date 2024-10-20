@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MenuItem, Slider, TextField, Card, CardContent, Typography } from '@mui/material';
+import { MenuItem, Slider, TextField, Card, CardContent } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import Button from '@components/client/Button';
 import StickyHeader from '@components/common/StickyHeader';
