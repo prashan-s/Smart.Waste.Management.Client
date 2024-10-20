@@ -201,7 +201,7 @@ export const saveWasteCollection = (data: WasteCollectionDTO) => {
 
 // Function to fetch waste type weights for the authenticated user
 export const getWasteTypeWeightsForUser = () => {
-    return axiosInstance.get('/chart-details')
+    return axiosInstance.get('point/chart-details')
         .then(response => response.data)
         .catch(error => {
             throw error.response?.data?.message || 'Failed to fetch chart details';

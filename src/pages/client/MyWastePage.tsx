@@ -44,7 +44,7 @@ const MyWastePage: React.FC = () => {
     useEffect(() => {
         const fetchWasteData = async () => {
             try {
-                const data = await getWasteTypeWeightsForUser(); // Fetching data from the API
+                const data = await getWasteTypeWeightsForUser();
 
                 // Format data for the chart
                 const formattedData = data.map((item: any) => ({
@@ -88,48 +88,24 @@ const MyWastePage: React.FC = () => {
                     </div>
                 ))}
             </div>
+            <div className="flex justify-center items-center">
+                {/* Add chart title */}
+                <h2 className="text-xl font-semibold mt-8">Your Waste Breakdown</h2>
+            </div>
+
 
             <div className="flex justify-center items-center">
                 {/* Pie Chart */}
+                <div className="flex justify-center items-center">
+                    {chartData.length > 0 ? (
+                        <PieChartComponent data={chartData} />
+                    ) : (
+                        <p>Loading chart data...</p> // Fallback when no data
+                    )}
+                </div>
 
                 <PieChartComponent data={chartData} />
 
-                <div className="w-full max-w-md mt-8">
-                    <ResponsiveContainer width="100%" height={250}>
-                        <PieChart>
-                            <Pie
-                                data={data}
-                                dataKey="value"
-                                cx="50%"
-                                cy="50%"
-                                outerRadius={80}
-                                fill="#8884d8"
-                                label
-                            >
-                                {data.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={entry.color} />
-                                ))}
-                            </Pie>
-                            <Legend verticalAlign="bottom" />
-                        </PieChart>
-                    </ResponsiveContainer>
-                </div>
-
-                {/* Legend (Custom) */}
-                <div className="mt-6 flex flex-col items-start">
-                    <div className="flex items-center mb-2">
-                        <div className="w-4 h-4 bg-[#EA5F5F] mr-2"></div>
-                        <span className="text-lg font-semibold text-nowrap">Paper Waste</span>
-                    </div>
-                    <div className="flex items-center mb-2">
-                        <div className="w-4 h-4 bg-[#FFAC33] mr-2"></div>
-                        <span className="text-lg font-semibold text-nowrap">E Waste</span>
-                    </div>
-                    <div className="flex items-center">
-                        <div className="w-4 h-4 bg-[#D9D9D9] mr-2"></div>
-                        <span className="text-lg font-semibold text-nowrap">Plastic Waste</span>
-                    </div>
-                </div>
             </div>
         </div>
     );
